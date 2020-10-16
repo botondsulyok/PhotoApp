@@ -60,4 +60,15 @@
         android:name="hu.bme.photoapp.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="hu.bme.photoapp.CategoriesFragment"
+        android:label="fragment_categories"
+        tools:layout="@layout/fragment_categories" />
+    <action
+        android:id="@+id/action_global_nav_categories_clicked"
+        app:destination="@id/categoriesFragment" />
+    <action
+        android:id="@+id/action_global_nav_home_clicked"
+        app:destination="@id/homeFragment" />
 </navigation>

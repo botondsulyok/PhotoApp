@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import hu.bme.photoapp.R
 
-class GalleryFragment : Fragment() {
+/*class GalleryFragment : Fragment() {
 
     private lateinit var galleryViewModel: GalleryViewModel
 
@@ -28,4 +28,4 @@ class GalleryFragment : Fragment() {
         })
         return root
     }
-}
+}*/

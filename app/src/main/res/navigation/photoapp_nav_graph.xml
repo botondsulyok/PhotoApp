@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/photoapp_nav_graph"
+    app:startDestination="@id/welcomeFragment">
+
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="hu.bme.photoapp.WelcomeFragment"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome" >
+        <action
+            android:id="@+id/action_login_chosen"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_register_chosen2"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="hu.bme.photoapp.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login_successful"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="hu.bme.photoapp.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_register_successful"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="hu.bme.photoapp.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+</navigation>

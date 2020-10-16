@@ -24,7 +24,9 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_login_successful"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/welcomeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -33,7 +35,9 @@
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_register_successful"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/welcomeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"

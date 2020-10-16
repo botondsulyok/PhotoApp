@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/btnLoginLogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginFragment">
@@ -30,10 +29,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etLoginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="16"
-            android:hint="E-mail"
+            android:hint="Email"
             android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -48,6 +48,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etLoginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="16"
@@ -56,7 +57,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnLoginLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

@@ -12,9 +12,17 @@
         tools:layout="@layout/fragment_welcome" >
         <action
             android:id="@+id/action_login_chosen"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
         <action
             android:id="@+id/action_register_chosen2"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit"
             app:destination="@id/registerFragment" />
     </fragment>
     <fragment
@@ -24,6 +32,10 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_login_successful"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true" />
@@ -35,6 +47,10 @@
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_register_successful"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="false" />

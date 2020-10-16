@@ -14,7 +14,7 @@ class WelcomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        activity?.getWindow()?.setBackgroundDrawableResource(R.drawable.welcome_background);
+        activity?.window?.setBackgroundDrawableResource(R.drawable.welcome_background)
         return inflater.inflate(R.layout.fragment_welcome, container, false)
     }
 

@@ -2,8 +2,10 @@ package hu.bme.photoapp
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 
 class HomeFragment : Fragment() {
@@ -21,6 +23,13 @@ class HomeFragment : Fragment() {
         fab.setOnClickListener {
             //TODO
         }
+
+        //activity?.tvEmail?.text = HomeFragmentArgs.fromBundle(requireArguments()).email
+
+        //activity?.toolbar_main?.visibility = View.VISIBLE
+
+        (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
     }
 

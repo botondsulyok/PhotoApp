@@ -34,6 +34,7 @@ class LoginFragment : Fragment() {
                 valid = false
             }
             if(valid) {
+                //etLoginEmail.text.toString() UserData osztály
                 val action = LoginFragmentDirections.actionLoginSuccessful()
                 findNavController().navigate(action)
                 Toast.makeText(activity, "Success", Toast.LENGTH_SHORT).show()

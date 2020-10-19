@@ -5,8 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_welcome.*
 
 class WelcomeFragment : Fragment() {
@@ -32,6 +35,11 @@ class WelcomeFragment : Fragment() {
             val action = WelcomeFragmentDirections.actionRegisterChosen2()
             findNavController().navigate(action)
         }
+
+
+        //activity?.toolbar_main?.visibility = View.INVISIBLE
+
+        (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
     }
 

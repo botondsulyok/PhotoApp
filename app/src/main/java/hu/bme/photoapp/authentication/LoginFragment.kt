@@ -11,7 +11,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import hu.bme.photoapp.LoginFragmentDirections
 import hu.bme.photoapp.R
 import kotlinx.android.synthetic.main.fragment_login.*
 

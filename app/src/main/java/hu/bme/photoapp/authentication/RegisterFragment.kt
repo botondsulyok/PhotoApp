@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import hu.bme.photoapp.R
-import hu.bme.photoapp.RegisterFragmentDirections
 import kotlinx.android.synthetic.main.fragment_register.*
 
 

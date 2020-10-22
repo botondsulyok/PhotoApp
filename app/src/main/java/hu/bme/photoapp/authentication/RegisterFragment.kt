@@ -1,4 +1,4 @@
-package hu.bme.photoapp
+package hu.bme.photoapp.authentication
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import hu.bme.photoapp.R
+import hu.bme.photoapp.RegisterFragmentDirections
 import kotlinx.android.synthetic.main.fragment_register.*
 
 
@@ -41,7 +43,8 @@ class RegisterFragment : Fragment() {
                 valid = false
             }
             if(valid) {
-                val action = RegisterFragmentDirections.actionRegisterSuccessful()
+                val action =
+                    RegisterFragmentDirections.actionRegisterSuccessful()
                 findNavController().navigate(action)
                 Toast.makeText(activity, "Registered, please login", Toast.LENGTH_LONG).show()
             }

@@ -1,11 +1,13 @@
-package hu.bme.photoapp
+package hu.bme.photoapp.home
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import hu.bme.photoapp.R
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.nav_header_main.*
 
 
 class HomeFragment : Fragment() {
@@ -23,14 +25,10 @@ class HomeFragment : Fragment() {
         fab.setOnClickListener {
             //TODO
         }
-
         //activity?.tvEmail?.text = HomeFragmentArgs.fromBundle(requireArguments()).email
-
         //activity?.toolbar_main?.visibility = View.VISIBLE
-
-        (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-
+        activity?.toolbar_main?.visibility = View.VISIBLE
+        activity?.drawer_layout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

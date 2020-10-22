@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -28,31 +29,36 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar_main) as Toolbar
         setSupportActionBar(toolbar)
 
-
         drawer = drawer_layout
 
         toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.addDrawerListener(toggle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu_black_18dp)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu_white_24)
 
         navigationView = nav_view
         navigationView.setNavigationItemSelectedListener(this)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-
         when (item.itemId) {
             R.id.nav_home -> {
-                Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.action_global_nav_home_clicked)
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_global_nav_home_clicked)
                 drawer.closeDrawer(GravityCompat.START)
             }
             R.id.nav_categories -> {
-                Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.action_global_nav_categories_clicked)
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_global_nav_categories_clicked)
                 drawer.closeDrawer(GravityCompat.START)
             }
-            R.id.nav_events -> Toast.makeText(this, "Clicked item three", Toast.LENGTH_SHORT).show()
+            R.id.nav_competitions -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.action_global_competitions_clicked)
+                drawer.closeDrawer(GravityCompat.START)
+            }
+            R.id.nav_logout -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.action_global_logout)
+                drawer.closeDrawer(GravityCompat.START)
+            }
         }
         return true
     }
@@ -64,4 +70,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             super.onBackPressed()
         }
     }
+
 }

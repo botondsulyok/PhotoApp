@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.*
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import hu.bme.photoapp.R
+import hu.bme.photoapp.authentication.WelcomeFragmentDirections
 import hu.bme.photoapp.categories.Category
 import hu.bme.photoapp.categories.CategoryRecyclerViewAdapter
 import hu.bme.photoapp.categories.CategoryViewModel
+import hu.bme.photoapp.upload.UploadFragment
+import hu.bme.photoapp.upload.UploadFragmentDirections
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_categories.*
@@ -29,12 +33,12 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fab.setOnClickListener {
-            //TODO
+        fab.setOnClickListener{
+            val action =
+                HomeFragmentDirections.actionPlusButtonClicked()
+            findNavController().navigate(action)
         }
         //TODO autentikáció, user objektum létrezhozása a felhasználó adataival
-        //activity?.tvEmail?.text = HomeFragmentArgs.fromBundle(requireArguments()).email
-        //activity?.toolbar_main?.visibility = View.VISIBLE
         activity?.toolbar_main?.visibility = View.VISIBLE
         activity?.drawer_layout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 

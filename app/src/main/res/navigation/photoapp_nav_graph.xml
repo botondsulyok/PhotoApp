@@ -59,7 +59,11 @@
         android:id="@+id/homeFragment"
         android:name="hu.bme.photoapp.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_plus_button_clicked"
+            app:destination="@id/uploadFragment" />
+    </fragment>
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="hu.bme.photoapp.categories.CategoryFragment"
@@ -87,4 +91,9 @@
     <action
         android:id="@+id/action_global_competitions_clicked"
         app:destination="@id/competitionFragment" />
+    <fragment
+        android:id="@+id/uploadFragment"
+        android:name="hu.bme.photoapp.upload.UploadFragment"
+        android:label="fragment_upload"
+        tools:layout="@layout/fragment_upload" />
 </navigation>

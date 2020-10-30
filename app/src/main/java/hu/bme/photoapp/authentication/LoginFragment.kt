@@ -39,7 +39,6 @@ class LoginFragment : Fragment() {
                     etLoginPassword.error = "Cannot be empty!"
                     valid = false
                 }
-                valid = true//TODO
                 if (valid) {
                     //TODO etLoginEmail.text.toString() UserData osztály szerverhez belépés kérése
                     val action =

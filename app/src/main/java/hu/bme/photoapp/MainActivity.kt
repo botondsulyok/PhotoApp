@@ -1,8 +1,11 @@
 package hu.bme.photoapp
 
 import android.os.Bundle
+import android.transition.Explode
+import android.transition.Slide
 import android.view.MenuItem
 import android.view.View
+import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +27,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //window?.sharedElementEnterTransition
+
         setContentView(R.layout.activity_main)
 
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar_main) as Toolbar

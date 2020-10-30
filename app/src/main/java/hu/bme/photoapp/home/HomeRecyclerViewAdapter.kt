@@ -3,6 +3,7 @@ package hu.bme.photoapp.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.photoapp.R
@@ -26,6 +27,7 @@ class HomeRecyclerViewAdapter : RecyclerView.Adapter<HomeRecyclerViewAdapter.Vie
 
         holder.image = image
         holder.tvImageName.text = image.name
+        holder.ivImage.transitionName = image?.name
     }
 
     override fun getItemCount(): Int = imageList.size
@@ -39,17 +41,19 @@ class HomeRecyclerViewAdapter : RecyclerView.Adapter<HomeRecyclerViewAdapter.Vie
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvImageName: TextView = itemView.tv_ImageName
 
+        val ivImage: ImageView = itemView.iv_Image
+
         var image: Image? = null
 
         init {
             itemView.setOnClickListener {
-                image?.let { image -> itemClickListener?.onItemClick(image) }
+                image?.let { image -> itemClickListener?.onItemClick(image, ivImage) }
             }
         }
     }
 
     interface ImageItemClickListener {
-        fun onItemClick(image: Image)
+        fun onItemClick(image: Image, imageView: ImageView)
     }
 
 }

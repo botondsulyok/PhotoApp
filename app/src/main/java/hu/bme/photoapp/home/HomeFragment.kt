@@ -1,16 +1,18 @@
 package hu.bme.photoapp.home
 
 import android.os.Bundle
+import android.transition.Explode
+import android.transition.Slide
+import android.transition.TransitionInflater
 import android.view.*
+import android.widget.ImageView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import hu.bme.photoapp.R
-import hu.bme.photoapp.categories.Category
-import hu.bme.photoapp.categories.CategoryRecyclerViewAdapter
-import hu.bme.photoapp.categories.CategoryViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_categories.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -50,6 +52,9 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
             Image("image7", "")
         )
         recyclerViewAdapter.addAll(demoList)
+
+
+
 }
 
     private fun setupRecyclerView() {
@@ -68,9 +73,11 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onItemClick(image: Image) {
-        TODO("Not yet implemented")
+    override fun onItemClick(image: Image, imageView: ImageView) {
+        //TODo change image.name to image.uri
+        val extras = FragmentNavigatorExtras(imageView to image.name)
+        val action = HomeFragmentDirections.actionViewPhoto(imageName = image.name)
+        findNavController().navigate(action, extras)
     }
-
 
 }

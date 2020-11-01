@@ -28,8 +28,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //window?.sharedElementEnterTransition
-
         setContentView(R.layout.activity_main)
 
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar_main) as Toolbar

@@ -64,7 +64,9 @@
             android:id="@+id/action_view_photo"
             app:destination="@id/photoFragment"
             app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit" />
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
         <action
             android:id="@+id/actionPlusButtonClicked"
             app:destination="@id/uploadFragment" />

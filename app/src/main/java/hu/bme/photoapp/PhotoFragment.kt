@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_photo.*
 
 
@@ -28,10 +31,10 @@ class PhotoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         ivPhoto.apply {
             transitionName = args.imageName
-
             val bm = BitmapFactory.decodeResource(resources, R.drawable.sample_photo)
             ivPhoto.setImageBitmap(bm)
         }
+
     }
 
 

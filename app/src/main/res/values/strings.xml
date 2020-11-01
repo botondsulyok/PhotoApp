@@ -102,4 +102,11 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="upload">Upload</string>
+    <string name="select_competition">Select Competition</string>
+    <string name="select_category">Select Category</string>
+    <string name="name">Name</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="make_photo">Take Photo</string>
+    <string name="description">Description</string>
 </resources>

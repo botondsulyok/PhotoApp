@@ -31,8 +31,10 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fab.setOnClickListener {
-            //TODO
+        fab.setOnClickListener{
+            val action =
+                HomeFragmentDirections.actionPlusButtonClicked()
+            findNavController().navigate(action)
         }
         //TODO autentikáció, user objektum létrezhozása a felhasználó adataival
         //activity?.tvEmail?.text = HomeFragmentArgs.fromBundle(requireArguments()).email

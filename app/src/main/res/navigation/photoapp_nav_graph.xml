@@ -65,6 +65,9 @@
             app:destination="@id/photoFragment"
             app:enterAnim="@anim/fragment_fade_enter"
             app:exitAnim="@anim/fragment_fade_exit" />
+        <action
+            android:id="@+id/actionPlusButtonClicked"
+            app:destination="@id/uploadFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoriesFragment"
@@ -104,4 +107,9 @@
             app:nullable="true"
             android:defaultValue="null" />
     </fragment>
+    <fragment
+        android:id="@+id/uploadFragment"
+        android:name="hu.bme.photoapp.upload.UploadFragment"
+        android:label="fragment_upload"
+        tools:layout="@layout/fragment_upload" />
 </navigation>

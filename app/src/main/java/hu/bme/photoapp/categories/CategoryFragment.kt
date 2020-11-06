@@ -27,14 +27,13 @@ class CategoryFragment : Fragment(), CategoryRecyclerViewAdapter.CategoryItemCli
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        /*categoryViewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
+
+        categoryViewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
         categoryViewModel.allCategories.observe(viewLifecycleOwner) { categories ->
             recyclerViewAdapter.addAll(categories)
         }
 
-         */
-
-        val demoList = listOf<Category>(
+        /*val demoList = listOf<Category>(
             Category("Category1"),
             Category("Category2"),
             Category("Category3"),
@@ -51,7 +50,7 @@ class CategoryFragment : Fragment(), CategoryRecyclerViewAdapter.CategoryItemCli
             Category("Category1"),
             Category("Category2")
         )
-        recyclerViewAdapter.addAll(demoList)
+        recyclerViewAdapter.addAll(demoList)*/
     }
 
     private fun setupRecyclerView() {

@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PhotoFragment"
+    tools:context=".photo.PhotoFragment"
     app:layoutDescription="@xml/fragment_photo_scene">
 
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".PhotoFragment"
+        tools:context=".photo.PhotoFragment"
         app:layoutDescription="@xml/fragment_photo_scene">
 
         <ImageView

@@ -11,15 +11,22 @@ class CompetitionViewModel : ViewModel() {
 
     private val repository: CompetitionRepository
 
-    val allCompetitions: LiveData<MutableList<Competition>> = MutableLiveData<MutableList<Competition>>()
+    val allCompetitions: MutableLiveData<MutableList<Competition>> = MutableLiveData<MutableList<Competition>>()
 
     init {
         repository = CompetitionRepository()
         repository.getAllCompetitions(this::addCompetitions, this::showError)
+
+
+
+        //TODO csak teszt, törölni
+        addCompetitions(listOf(
+            Competition("name1", "a", false, ""),
+            Competition("name2", "a", true, "")))
     }
 
     private fun addCompetitions(competitions: List<Competition>) {
-        allCompetitions.value?.addAll(competitions)
+        allCompetitions.postValue(competitions.toMutableList())
     }
 
     private fun showError(t: Throwable) {

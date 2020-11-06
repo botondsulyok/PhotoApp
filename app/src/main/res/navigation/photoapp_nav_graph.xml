@@ -63,9 +63,7 @@
         <action
             android:id="@+id/action_view_photo"
             app:destination="@id/photoFragment"
-            app:enterAnim="@anim/fragment_fade_enter"
             app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/fragment_fade_exit" />
         <action
             android:id="@+id/actionPlusButtonClicked"
@@ -100,11 +98,11 @@
         app:destination="@id/competitionFragment" />
     <fragment
         android:id="@+id/photoFragment"
-        android:name="hu.bme.photoapp.PhotoFragment"
+        android:name="hu.bme.photoapp.photo.PhotoFragment"
         android:label="fragment_photo"
         tools:layout="@layout/fragment_photo" >
         <argument
-            android:name="imageName"
+            android:name="imageUrl"
             app:argType="string"
             app:nullable="true"
             android:defaultValue="null" />

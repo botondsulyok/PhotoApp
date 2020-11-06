@@ -1,16 +1,17 @@
 package hu.bme.photoapp.home
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import hu.bme.photoapp.R
-import hu.bme.photoapp.home.Image
 import kotlinx.android.synthetic.main.row_image.view.*
 
-class HomeRecyclerViewAdapter : RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>() {
+class HomeRecyclerViewAdapter(private val context: Context) : RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>() {
 
     private val imageList = mutableListOf<Image>()
 
@@ -24,10 +25,14 @@ class HomeRecyclerViewAdapter : RecyclerView.Adapter<HomeRecyclerViewAdapter.Vie
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val image = imageList[position]
-
         holder.image = image
+
+        val imageUrl = image.url
+        Glide.with(context).load(imageUrl).into(holder.ivImage)
+
         holder.tvImageName.text = image.name
-        holder.ivImage.transitionName = image?.name
+
+        holder.ivImage.transitionName = imageUrl
     }
 
     override fun getItemCount(): Int = imageList.size

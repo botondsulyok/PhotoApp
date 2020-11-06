@@ -10,15 +10,20 @@ class CategoryViewModel : ViewModel() {
 
     private val repository: CategoryRepository
 
-    val allCategories: LiveData<MutableList<Category>> = MutableLiveData<MutableList<Category>>()
+    val allCategories: MutableLiveData<MutableList<Category>> = MutableLiveData()
 
     init {
         repository = CategoryRepository()
         repository.getAllCategories(this::addCategories, this::showError)
+
+
+
+        //TODO csak teszt, törölni
+        addCategories(listOf(Category("name", "a")))
     }
 
     private fun addCategories(categories: List<Category>) {
-        allCategories.value?.addAll(categories)
+        allCategories.postValue(categories.toMutableList())
     }
 
     private fun showError(t: Throwable) {

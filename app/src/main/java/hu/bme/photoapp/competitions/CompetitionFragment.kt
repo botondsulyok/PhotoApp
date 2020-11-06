@@ -35,17 +35,6 @@ class CompetitionFragment : Fragment(), CompetitionRecyclerViewAdapter.Competiti
         competitionViewModel.allCompetitions.observe(viewLifecycleOwner) { competitions ->
             recyclerViewAdapter.addAll(competitions)
         }
-
-
-
-        /*val demoList = listOf<Competition>(
-            Competition("Competion1", "2020"),
-            Competition("Competion2", "2021"),
-            Competition("Competion3", "2024"),
-            Competition("Competion4", "2022"),
-            Competition("Competion5", "2021")
-        )
-        recyclerViewAdapter.addAll(demoList)*/
     }
 
     private fun setupRecyclerView() {

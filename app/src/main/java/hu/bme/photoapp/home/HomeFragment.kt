@@ -8,9 +8,12 @@ import android.view.*
 import android.widget.ImageView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import hu.bme.photoapp.R
+import hu.bme.photoapp.categories.CategoryViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -37,30 +40,20 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
             findNavController().navigate(action)
         }
         //TODO autentikáció, user objektum létrezhozása a felhasználó adataival
-        //activity?.tvEmail?.text = HomeFragmentArgs.fromBundle(requireArguments()).email
-        //activity?.toolbar_main?.visibility = View.VISIBLE
         activity?.toolbar_main?.visibility = View.VISIBLE
         activity?.drawer_layout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
         setupRecyclerView()
 
-        val demoList = listOf<Image>(
-            Image("image1", ""),
-            Image("image2", ""),
-            Image("image3", ""),
-            Image("image4", ""),
-            Image("image5", ""),
-            Image("image6", ""),
-            Image("image7", "")
-        )
-        recyclerViewAdapter.addAll(demoList)
-
-
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        homeViewModel.allImages.observe(viewLifecycleOwner) { categories ->
+            recyclerViewAdapter.addAll(categories)
+        }
 
 }
 
     private fun setupRecyclerView() {
-        recyclerViewAdapter = HomeRecyclerViewAdapter()
+        recyclerViewAdapter = HomeRecyclerViewAdapter(requireContext())
         recyclerViewAdapter.itemClickListener = this
         rvImageList.adapter = recyclerViewAdapter
     }
@@ -76,9 +69,8 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
     }
 
     override fun onItemClick(image: Image, imageView: ImageView) {
-        //TODo change image.name to image.uri
-        val extras = FragmentNavigatorExtras(imageView to image.name)
-        val action = HomeFragmentDirections.actionViewPhoto(imageName = image.name)
+        val extras = FragmentNavigatorExtras(imageView to image.url)
+        val action = HomeFragmentDirections.actionViewPhoto(imageUrl = image.url)
         findNavController().navigate(action, extras)
     }
 

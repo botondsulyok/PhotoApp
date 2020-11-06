@@ -6,5 +6,6 @@ import com.squareup.moshi.JsonClass
 class Competition(
     val name: String,
     val date: String,
+    val vip: Boolean,
     val _id: String
 )

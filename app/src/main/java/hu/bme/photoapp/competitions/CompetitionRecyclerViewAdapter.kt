@@ -1,8 +1,11 @@
 package hu.bme.photoapp.competitions
 
+import android.media.Image
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.photoapp.R
@@ -26,6 +29,9 @@ class CompetitionRecyclerViewAdapter : RecyclerView.Adapter<CompetitionRecyclerV
         holder.competition = competition
         holder.tvCompetitionName.text = competition.name
         holder.tvCompetitionDate.text = competition.date
+        if(competition.vip) {
+            holder.ivVip.visibility = View.VISIBLE
+        }
     }
 
     override fun getItemCount(): Int = competitionList.size
@@ -39,6 +45,7 @@ class CompetitionRecyclerViewAdapter : RecyclerView.Adapter<CompetitionRecyclerV
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvCompetitionName: TextView = itemView.tv_competitionName
         val tvCompetitionDate: TextView = itemView.tv_competitionDate
+        val ivVip: ImageView = itemView.iv_vip
         var competition: Competition? = null
 
         init {

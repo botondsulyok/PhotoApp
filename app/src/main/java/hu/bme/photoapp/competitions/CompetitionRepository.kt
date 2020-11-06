@@ -15,7 +15,7 @@ class CompetitionRepository {
 
     init {
         val retrofit = Retrofit.Builder()
-            .baseUrl(CategoryAPI.BASE_URL)
+            .baseUrl(CompetitionAPI.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
 

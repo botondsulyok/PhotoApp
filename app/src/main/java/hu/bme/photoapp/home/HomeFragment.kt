@@ -69,8 +69,8 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
     }
 
     override fun onItemClick(image: Image, imageView: ImageView) {
-        val extras = FragmentNavigatorExtras(imageView to image.url)
-        val action = HomeFragmentDirections.actionViewPhoto(imageUrl = image.url)
+        val extras = FragmentNavigatorExtras(imageView to image.ownImage)
+        val action = HomeFragmentDirections.actionViewPhoto(imageUrl = image.ownImage)
         findNavController().navigate(action, extras)
     }
 

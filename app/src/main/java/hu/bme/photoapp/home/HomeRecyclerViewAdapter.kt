@@ -27,10 +27,12 @@ class HomeRecyclerViewAdapter(private val context: Context) : RecyclerView.Adapt
         val image = imageList[position]
         holder.image = image
 
-        val imageUrl = image.url
-        Glide.with(context).load(imageUrl).into(holder.ivImage)
+        var imageUrl = image.ownImage
+        //TODO
+        imageUrl = imageUrl.replace("\\", "/")
+        Glide.with(context).load(ImageAPI.BASE_URL+imageUrl).into(holder.ivImage)
 
-        holder.tvImageName.text = image.name
+        holder.tvImageName.text = image.title
 
         holder.ivImage.transitionName = imageUrl
     }

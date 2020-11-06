@@ -28,10 +28,10 @@ class CompetitionRecyclerViewAdapter : RecyclerView.Adapter<CompetitionRecyclerV
 
         holder.competition = competition
         holder.tvCompetitionName.text = competition.name
-        holder.tvCompetitionDate.text = competition.date
-        if(competition.vip) {
+        //holder.tvCompetitionDate.text = competition.deadline
+        /*if(competition.vip) {
             holder.ivVip.visibility = View.VISIBLE
-        }
+        }*/
     }
 
     override fun getItemCount(): Int = competitionList.size

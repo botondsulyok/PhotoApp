@@ -1,5 +1,6 @@
 package hu.bme.photoapp.categories
 
+import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,7 +26,9 @@ class CategoryRepository {
 
         getCategoriesRequest.enqueue(object: Callback<List<Category>> {
             override fun onFailure(call: Call<List<Category>>, t: Throwable) {
+                t.message?.let { Log.i("asd", it) }
                 onError(t)
+
             }
             override fun onResponse(
                 call: Call<List<Category>>,

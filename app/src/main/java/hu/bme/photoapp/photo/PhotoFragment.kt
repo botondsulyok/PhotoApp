@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import hu.bme.photoapp.R
+import hu.bme.photoapp.home.ImageAPI
 import kotlinx.android.synthetic.main.fragment_photo.*
 
 
@@ -29,7 +30,8 @@ class PhotoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         ivPhoto.apply {
             transitionName = args.imageUrl
-            Glide.with(this).load(transitionName).into(ivPhoto)
+            val imageUrl = transitionName.replace("\\", "/")
+            Glide.with(this).load(ImageAPI.BASE_URL+imageUrl).into(ivPhoto)
         }
 
     }

@@ -15,11 +15,6 @@ class CategoryViewModel : ViewModel() {
     init {
         repository = CategoryRepository()
         repository.getAllCategories(this::addCategories, this::showError)
-
-
-
-        //TODO csak teszt, törölni
-        addCategories(listOf(Category("name", "a")))
     }
 
     private fun addCategories(categories: List<Category>) {

@@ -4,9 +4,11 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 class Image(
-    val name: String,
-    val author: String,
-    val description: String,
-    val url: String,
-    val _id: String
+    val _id: String,
+    val title: String,
+    /*val likes: Int,*/
+    val ownImage: String
+    /*val description: String,*/
+    /*val owner: String*/
+
 )

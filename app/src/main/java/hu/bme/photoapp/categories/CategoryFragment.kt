@@ -32,25 +32,6 @@ class CategoryFragment : Fragment(), CategoryRecyclerViewAdapter.CategoryItemCli
         categoryViewModel.allCategories.observe(viewLifecycleOwner) { categories ->
             recyclerViewAdapter.addAll(categories)
         }
-
-        /*val demoList = listOf<Category>(
-            Category("Category1"),
-            Category("Category2"),
-            Category("Category3"),
-            Category("Category1"),
-            Category("Category2"),
-            Category("Category1"),
-            Category("Category2"),
-            Category("Category1"),
-            Category("Category2"),
-            Category("Category1"),
-            Category("Category2"),
-            Category("Category1"),
-            Category("Category2"),
-            Category("Category1"),
-            Category("Category2")
-        )
-        recyclerViewAdapter.addAll(demoList)*/
     }
 
     private fun setupRecyclerView() {

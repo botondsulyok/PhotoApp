@@ -16,13 +16,6 @@ class CompetitionViewModel : ViewModel() {
     init {
         repository = CompetitionRepository()
         repository.getAllCompetitions(this::addCompetitions, this::showError)
-
-
-
-        //TODO csak teszt, törölni
-        addCompetitions(listOf(
-            Competition("name1", "a", false, ""),
-            Competition("name2", "a", true, "")))
     }
 
     private fun addCompetitions(competitions: List<Competition>) {

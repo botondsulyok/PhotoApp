@@ -1,7 +1,5 @@
 package hu.bme.photoapp.competitions
 
-import android.media.Image
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.photoapp.R
 import kotlinx.android.synthetic.main.row_competition.view.*
+import java.text.SimpleDateFormat
 
 class CompetitionRecyclerViewAdapter : RecyclerView.Adapter<CompetitionRecyclerViewAdapter.ViewHolder>() {
 
@@ -28,7 +27,14 @@ class CompetitionRecyclerViewAdapter : RecyclerView.Adapter<CompetitionRecyclerV
 
         holder.competition = competition
         holder.tvCompetitionName.text = competition.name
-        //holder.tvCompetitionDate.text = competition.deadline
+
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val formatter = SimpleDateFormat("yyyy.dd.MM.dd HH:mm")
+        val date = formatter.format(parser.parse(competition.deadline))
+        holder.tvCompetitionDate.text = date
+
+
+        //TODO vip verseny
         /*if(competition.vip) {
             holder.ivVip.visibility = View.VISIBLE
         }*/

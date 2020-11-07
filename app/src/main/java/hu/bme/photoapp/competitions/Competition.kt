@@ -7,6 +7,6 @@ class Competition(
     val _id: String,
     //TODO Date, User osztály kezelése
     /*val creator: String,*/
-    val name: String/*,
-    val deadline: Date*/
+    val name: String,
+    val deadline: String
 )

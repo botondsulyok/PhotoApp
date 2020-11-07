@@ -1,17 +1,29 @@
 package hu.bme.photoapp.model
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 
 class MainActivityViewModel : ViewModel() {
 
-    /*private val repository: CategoryRepository
+    private val repository = MainActivityRepository()
 
-    //val allCategories: LiveData<List<Category>>
+    companion object {
+        var user: User = User("")
+    }
 
-    init {
-        repository = CategoryRepository()
-        //allCategories = repository.getAllCategories()
-    }*/
+    fun registerUser(registerUser: RegisterUser,
+                     onSuccess: () -> Unit,
+                     onError: (Throwable) -> Unit) {
+        repository.registerUser(registerUser, onSuccess, onError)
+    }
+
+    fun loginUser(registerUser: RegisterUser,
+                     onSuccess: (user: User) -> Unit,
+                     onError: (Throwable) -> Unit) {
+        repository.loginUser(registerUser, onSuccess, onError)
+    }
+
+    fun changeUser(u: User) {
+        user = u
+    }
 
 }

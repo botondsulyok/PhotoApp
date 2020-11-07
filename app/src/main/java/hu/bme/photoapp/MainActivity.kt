@@ -15,6 +15,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.google.android.material.navigation.NavigationView
+import hu.bme.photoapp.model.MainActivityViewModel
+import hu.bme.photoapp.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
@@ -60,6 +62,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 drawer.closeDrawer(GravityCompat.START)
             }
             R.id.nav_logout -> {
+                MainActivityViewModel.user = User("")
                 findNavController(R.id.nav_host_fragment).navigate(R.id.action_global_logout)
                 drawer.closeDrawer(GravityCompat.START)
             }

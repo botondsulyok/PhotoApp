@@ -1,6 +1,7 @@
 package hu.bme.photoapp.home
 
 import android.util.Log
+import hu.bme.photoapp.model.MainActivityViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

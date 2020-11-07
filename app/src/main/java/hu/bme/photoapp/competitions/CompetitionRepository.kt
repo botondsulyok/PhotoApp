@@ -34,7 +34,7 @@ class CompetitionRepository {
                 call: Call<List<Competition>>,
                 response: Response<List<Competition>>
             ) {
-                onSuccess(response.body()!!)
+                response.body()?.let { onSuccess(it) }
             }
         })
 

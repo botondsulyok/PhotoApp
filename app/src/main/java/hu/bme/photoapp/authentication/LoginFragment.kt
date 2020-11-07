@@ -4,15 +4,21 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import hu.bme.photoapp.R
+import hu.bme.photoapp.model.MainActivityViewModel
+import hu.bme.photoapp.model.RegisterUser
+import hu.bme.photoapp.model.User
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_register.*
 
 
 class LoginFragment : Fragment() {
@@ -35,17 +41,22 @@ class LoginFragment : Fragment() {
                     etLoginEmail.error = "Invalid email adress!"
                     valid = false
                 }
+
                 if (TextUtils.isEmpty(etLoginPassword.text)) {
                     etLoginPassword.error = "Cannot be empty!"
                     valid = false
                 }
-                valid=true //TODO
+
                 if (valid) {
-                    //TODO etLoginEmail.text.toString() UserData osztály szerverhez belépés kérése
-                    val action =
-                        LoginFragmentDirections.actionLoginSuccessful()
-                    findNavController().navigate(action)
-                    Toast.makeText(activity, "Success", Toast.LENGTH_SHORT).show()
+                    val registerUser = RegisterUser(
+                        etLoginEmail.text.toString(),
+                        etLoginPassword.text.toString()
+                    )
+                    val mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+                    mainActivityViewModel.loginUser(
+                        registerUser,
+                        this::onSuccess,
+                        this::showError)
                 }
             }
         }
@@ -54,6 +65,21 @@ class LoginFragment : Fragment() {
     private fun isEmailValid(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
+
+    private fun onSuccess(user: User) {
+        val mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        //mainActivityViewModel.changeUser(user)
+        MainActivityViewModel.user = user
+        val action =
+            LoginFragmentDirections.actionLoginSuccessful()
+        findNavController().navigate(action)
+        Toast.makeText(activity, "Success", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showError(t: Throwable) {
+        Toast.makeText(activity, t.message.toString(), Toast.LENGTH_LONG).show()
+    }
+
 }
 
 

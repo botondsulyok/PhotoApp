@@ -26,7 +26,6 @@ class CategoryRepository {
 
         getCategoriesRequest.enqueue(object: Callback<List<Category>> {
             override fun onFailure(call: Call<List<Category>>, t: Throwable) {
-                t.message?.let { Log.i("asd", it) }
                 onError(t)
 
             }
@@ -34,7 +33,7 @@ class CategoryRepository {
                 call: Call<List<Category>>,
                 response: Response<List<Category>>
             ) {
-                onSuccess(response.body()!!)
+                response.body()?.let { onSuccess(it) }
             }
         })
 

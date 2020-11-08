@@ -5,6 +5,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
+import retrofit2.http.Path
 
 interface ImageAPI {
 
@@ -17,6 +18,12 @@ interface ImageAPI {
     )*/
     @GET("photos")
     fun getImages(@Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token): Call<List<Image>>
+
+    @GET("photos/{id}")
+    fun getImage(
+        @Path("id") id: String,
+        @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
+    ): Call<Image>
 
     //TODO post - fotó feltöltése
 

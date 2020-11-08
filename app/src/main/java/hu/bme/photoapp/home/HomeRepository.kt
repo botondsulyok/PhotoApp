@@ -22,7 +22,7 @@ class HomeRepository {
     }
 
     fun getAllImages(onSuccess: (List<Image>) -> Unit,
-                         onError: (Throwable) -> Unit) {
+                     onError: (Throwable) -> Unit) {
         val getImagesRequest = imageAPI.getImages()
 
         getImagesRequest.enqueue(object: Callback<List<Image>> {
@@ -35,6 +35,24 @@ class HomeRepository {
             ) {
                 response.body()?.let { onSuccess(it) }
             }
+        })
+    }
+
+    fun getImage(id: String,
+                 onSuccess: (Image) -> Unit,
+                 onError: (Throwable) -> Unit
+                 ) {
+        val getImageRequest = imageAPI.getImage(id)
+
+        getImageRequest.enqueue(object: Callback<Image> {
+            override fun onFailure(call: Call<Image>, t: Throwable) {
+                onError(t)
+            }
+
+            override fun onResponse(call: Call<Image>, response: Response<Image>) {
+                response.body()?.let { onSuccess(it) }
+            }
+
         })
 
     }

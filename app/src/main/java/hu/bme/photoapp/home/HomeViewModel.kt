@@ -18,6 +18,12 @@ class HomeViewModel : ViewModel() {
         allImages.postValue(images.toMutableList())
     }
 
+    fun getImage(id: String,
+                 onSuccess: (Image) -> Unit
+    ) {
+        repository.getImage(id, onSuccess, this::showError)
+    }
+
     private fun showError(t: Throwable) {
         t.printStackTrace()
     }

@@ -5,7 +5,7 @@ import hu.bme.photoapp.model.User
 
 @JsonClass(generateAdapter = true)
 class Comment(
-    val _id: String,
-    val text: String,
-    val user: User
+    val _id: String = "",
+    val text: String = "",
+    val user: User = User()
 )

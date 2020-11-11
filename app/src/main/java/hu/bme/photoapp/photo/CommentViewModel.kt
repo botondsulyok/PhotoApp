@@ -8,7 +8,7 @@ class CommentViewModel : ViewModel() {
 
     private val repository: HomeRepository = HomeRepository()
 
-    val allComments: MutableLiveData<MutableList<CommentContainer>> = MutableLiveData<MutableList<CommentContainer>>()
+    val allComments: MutableLiveData<MutableList<CommentContainer>> = MutableLiveData()
 
     fun getAllComments(id: String) {
         allComments.value?.clear()

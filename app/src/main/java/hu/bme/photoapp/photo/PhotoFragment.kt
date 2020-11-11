@@ -12,13 +12,10 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import hu.bme.photoapp.R
-import hu.bme.photoapp.home.HomeRecyclerViewAdapter
 import hu.bme.photoapp.home.HomeViewModel
 import hu.bme.photoapp.home.Image
 import hu.bme.photoapp.home.ImageAPI
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_photo.*
-import org.w3c.dom.Comment
 
 
 class PhotoFragment : Fragment() {
@@ -70,7 +67,7 @@ class PhotoFragment : Fragment() {
 
         commentViewModel = ViewModelProvider(this).get(CommentViewModel::class.java)
         commentViewModel.allComments.observe(viewLifecycleOwner) { commentContainer ->
-            recyclerViewAdapter.addAll(commentContainer[0].comments.toList())
+            recyclerViewAdapter.addAll(commentContainer[0].comment.toList())
         }
 
         btnComment.setOnClickListener {

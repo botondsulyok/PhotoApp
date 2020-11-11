@@ -3,6 +3,7 @@ package hu.bme.photoapp.home
 import android.util.Log
 import hu.bme.photoapp.model.MainActivityViewModel
 import hu.bme.photoapp.photo.Comment
+import hu.bme.photoapp.photo.CommentContainer
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -78,10 +79,11 @@ class HomeRepository {
     }
 
     fun likeImage(id: String,
+                  value: String,
                   onSuccess: () -> Unit,
                   onError: (Throwable) -> Unit
     ) {
-        val likeImageRequest = imageAPI.likeImage(id)
+        val likeImageRequest = imageAPI.likeImage(id = id, value = value)
 
         likeImageRequest.enqueue(object: Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -95,29 +97,31 @@ class HomeRepository {
         })
     }
 
-    fun getAllComments(onSuccess: (List<Comment>) -> Unit,
+    fun getAllComments(id: String,
+                       onSuccess: (CommentContainer) -> Unit,
                        onError: (Throwable) -> Unit
     ) {
-        val getCommentsRequest = imageAPI.getComments()
+        val getCommentsRequest = imageAPI.getComments(id)
 
-        getCommentsRequest.enqueue(object: Callback<List<Comment>> {
-            override fun onFailure(call: Call<List<Comment>>, t: Throwable) {
+        getCommentsRequest.enqueue(object: Callback<CommentContainer> {
+            override fun onFailure(call: Call<CommentContainer>, t: Throwable) {
                 onError(t)
             }
             override fun onResponse(
-                call: Call<List<Comment>>,
-                response: Response<List<Comment>>
+                call: Call<CommentContainer>,
+                response: Response<CommentContainer>
             ) {
                 response.body()?.let { onSuccess(it) }
             }
         })
     }
 
-    fun postComment(text: String,
+    fun postComment(id: String,
+                    text: String,
                   onSuccess: () -> Unit,
                   onError: (Throwable) -> Unit
     ) {
-        val postCommentRequest = imageAPI.postComment(text)
+        val postCommentRequest = imageAPI.postComment(id = id, value = text)
 
         postCommentRequest.enqueue(object: Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

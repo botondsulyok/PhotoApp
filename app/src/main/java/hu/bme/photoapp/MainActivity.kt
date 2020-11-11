@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 drawer.closeDrawer(GravityCompat.START)
             }
             R.id.nav_logout -> {
-                MainActivityViewModel.user = User("")
+                MainActivityViewModel.user = User("", "", "")
                 findNavController(R.id.nav_host_fragment).navigate(R.id.action_global_logout)
                 drawer.closeDrawer(GravityCompat.START)
             }

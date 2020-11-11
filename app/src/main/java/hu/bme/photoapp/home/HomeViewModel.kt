@@ -35,8 +35,8 @@ class HomeViewModel : ViewModel() {
         allImages.postValue(images.toMutableList())
     }
 
-    fun likeImage(id: String, onSuccess: () -> Unit) {
-        repository.likeImage(id, onSuccess, this::showError)
+    fun likeImage(id: String, value: String, onSuccess: () -> Unit) {
+        repository.likeImage(id, value, onSuccess, this::showError)
     }
 
     private fun showError(t: Throwable) {

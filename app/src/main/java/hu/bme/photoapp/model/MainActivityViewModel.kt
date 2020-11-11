@@ -7,7 +7,7 @@ class MainActivityViewModel : ViewModel() {
     private val repository = MainActivityRepository()
 
     companion object {
-        var user: User = User("")
+        var user: User = User("", "", "")
     }
 
     fun registerUser(registerUser: RegisterUser,
@@ -20,10 +20,6 @@ class MainActivityViewModel : ViewModel() {
                      onSuccess: (user: User) -> Unit,
                      onError: (Throwable) -> Unit) {
         repository.loginUser(registerUser, onSuccess, onError)
-    }
-
-    fun changeUser(u: User) {
-        user = u
     }
 
 }

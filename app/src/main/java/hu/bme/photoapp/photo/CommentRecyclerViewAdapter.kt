@@ -22,7 +22,7 @@ class CommentRecyclerViewAdapter(private val context: Context) : RecyclerView.Ad
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val comment = commentList[position]
-        holder.tvUser.text = comment.user
+        holder.tvUser.text = comment.user.email
         holder.tvCommentText.text = comment.text
         holder.comment = comment
     }

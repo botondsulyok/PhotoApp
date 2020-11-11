@@ -18,6 +18,7 @@ import hu.bme.photoapp.home.Image
 import hu.bme.photoapp.home.ImageAPI
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_photo.*
+import org.w3c.dom.Comment
 
 
 class PhotoFragment : Fragment() {
@@ -27,6 +28,8 @@ class PhotoFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
 
     private lateinit var commentViewModel: CommentViewModel
+
+    private var image = Image("", "", 0, "", "")
 
     private val args: PhotoFragmentArgs by navArgs()
 
@@ -48,31 +51,31 @@ class PhotoFragment : Fragment() {
             Glide.with(this).load(ImageAPI.BASE_URL+imageUrl).into(ivPhoto)
         }
         btnLike.setOnClickListener {
-            homeViewModel.likeImage(args.id, this::onSuccessLike)
+            homeViewModel.likeImage(args.id, (image.likes+1).toString(), this::onSuccessLike)
         }
 
         homeViewModel.getImage(args.id, this::onSuccessGetImage)
 
         setupRecyclerView()
 
+        /*
         val demo = listOf(
             Comment("user", "text"),
             Comment("user", "text"),
             Comment("user", "text"),
             Comment("user", "text")
         )
-
         recyclerViewAdapter.addAll(demo)
+         */
 
         commentViewModel = ViewModelProvider(this).get(CommentViewModel::class.java)
-        commentViewModel.allComments.observe(viewLifecycleOwner) { comments ->
-            recyclerViewAdapter.addAll(comments)
+        commentViewModel.allComments.observe(viewLifecycleOwner) { commentContainer ->
+            recyclerViewAdapter.addAll(commentContainer[0].comments.toList())
         }
-        commentViewModel.getAllComments()
 
         btnComment.setOnClickListener {
-            if(etComment.text?.equals("") == false) {
-
+            if(etComment.text?.isEmpty() == false) {
+                commentViewModel.postComment(image._id, etComment.text.toString(), this::onSuccessComment)
             }
         }
 
@@ -83,22 +86,27 @@ class PhotoFragment : Fragment() {
         rvCommentList.adapter = recyclerViewAdapter
     }
 
-    private fun onSuccessGetImage(image: Image) {
+    private fun onSuccessGetImage(i: Image) {
+        image = i
         tvPhotoName.text = image.title
         //tvCreator.text = image.owner
         tvLikes.text = image.likes.toString()
         //tvPhotoName.visibility = View.VISIBLE
         //TODO tvDesc.text = image.desc
 
+        commentViewModel.getAllComments(image._id)
+
     }
 
     private fun onSuccessLike() {
         activity?.window?.decorView?.let { Snackbar.make(it, "Liked", Snackbar.LENGTH_SHORT).show() }
+        homeViewModel.getImage(args.id, this::onSuccessGetImage)
     }
 
     private fun onSuccessComment() {
         activity?.window?.decorView?.let { Snackbar.make(it, "Done", Snackbar.LENGTH_SHORT).show() }
-        commentViewModel.getAllComments()
+        etComment.setText("")
+        commentViewModel.getAllComments(image._id)
     }
 
 

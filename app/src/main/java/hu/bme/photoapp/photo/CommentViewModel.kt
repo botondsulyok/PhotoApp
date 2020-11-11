@@ -6,25 +6,21 @@ import hu.bme.photoapp.home.HomeRepository
 
 class CommentViewModel : ViewModel() {
 
-    private val repository: HomeRepository
+    private val repository: HomeRepository = HomeRepository()
 
-    val allComments: MutableLiveData<MutableList<Comment>> = MutableLiveData<MutableList<Comment>>()
+    val allComments: MutableLiveData<MutableList<CommentContainer>> = MutableLiveData<MutableList<CommentContainer>>()
 
-    init {
-        repository = HomeRepository()
-    }
-
-    fun getAllComments() {
+    fun getAllComments(id: String) {
         allComments.value?.clear()
-        repository.getAllComments(this::addComments, this::showError)
+        repository.getAllComments(id, this::addComments, this::showError)
     }
 
-    fun postComment(text: String, onSuccess :() -> Unit) {
-        repository.postComment(text, onSuccess, this::showError)
+    fun postComment(id: String, text: String, onSuccess :() -> Unit) {
+        repository.postComment(id, text, onSuccess, this::showError)
     }
 
-    private fun addComments(comments: List<Comment>) {
-        allComments.postValue(comments.toMutableList())
+    private fun addComments(commentContainer: CommentContainer) {
+        allComments.postValue(mutableListOf(commentContainer))
     }
 
     private fun showError(t: Throwable) {

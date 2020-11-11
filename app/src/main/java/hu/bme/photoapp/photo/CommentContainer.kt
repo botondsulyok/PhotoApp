@@ -4,8 +4,7 @@ import com.squareup.moshi.JsonClass
 import hu.bme.photoapp.model.User
 
 @JsonClass(generateAdapter = true)
-class Comment(
-    val _id: String,
-    val text: String,
-    val user: User
+class CommentContainer(
+    val _id: String = "",
+    val comments: List<Comment>
 )

@@ -2,6 +2,7 @@ package hu.bme.photoapp.home
 
 import hu.bme.photoapp.model.MainActivityViewModel
 import hu.bme.photoapp.photo.Comment
+import hu.bme.photoapp.photo.CommentContainer
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -16,18 +17,20 @@ interface ImageAPI {
     @GET("photos")
     fun getImages(@Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token): Call<List<Image>>
 
+
     @GET("photos/{id}")
     fun getImage(
         @Path("id") id: String,
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<Image>
 
-    //TODO nem jó
-    @Multipart
-    @POST("photos/{id}")
+
+    @FormUrlEncoded
+    @PATCH("photos/{id}")
     fun likeImage(
         @Path("id") id: String,
-        @Part likeID: String = "like",
+        @Field("propName") propName: String = "likes",
+        @Field("value") value: String,
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<ResponseBody>
 
@@ -38,18 +41,26 @@ interface ImageAPI {
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<List<Image>>
 
+
     //TODO post - fotó feltöltését megírni
 
-    @GET()
+
+    @GET("photos/{id}/comment")
     fun getComments(
-
+        @Path("id") id: String,
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
-    ): Call<List<Comment>>
+    ): Call<CommentContainer>
 
-    @POST()
+
+    @FormUrlEncoded
+    @PATCH("photos/{id}")
     fun postComment(
-        @Body text: String,
+        @Path("id") id: String,
+        @Field("propName") propName: String = "comment",
+        @Field("value") value: String,
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<ResponseBody>
+
+
 
 }

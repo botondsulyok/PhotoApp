@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import hu.bme.photoapp.R
+import hu.bme.photoapp.home.HomeFragment
 import hu.bme.photoapp.model.MainActivityViewModel
 import hu.bme.photoapp.model.RegisterUser
 import hu.bme.photoapp.model.User

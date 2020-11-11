@@ -68,12 +68,24 @@
         <action
             android:id="@+id/actionPlusButtonClicked"
             app:destination="@id/uploadFragment" />
+        <argument
+            android:name="categoryId"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="type"
+            app:argType="string"
+            android:defaultValue='""' />
     </fragment>
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="hu.bme.photoapp.categories.CategoryFragment"
         android:label="fragment_categories"
-        tools:layout="@layout/fragment_categories" />
+        tools:layout="@layout/fragment_categories" >
+        <action
+            android:id="@+id/action_category_selected"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <action
         android:id="@+id/action_global_nav_categories_clicked"
         app:destination="@id/categoriesFragment" />

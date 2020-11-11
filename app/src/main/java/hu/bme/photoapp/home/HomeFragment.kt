@@ -1,9 +1,6 @@
 package hu.bme.photoapp.home
 
 import android.os.Bundle
-import android.transition.Explode
-import android.transition.Slide
-import android.transition.TransitionInflater
 import android.view.*
 import android.widget.ImageView
 import androidx.drawerlayout.widget.DrawerLayout
@@ -13,13 +10,17 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import hu.bme.photoapp.R
-import hu.bme.photoapp.categories.CategoryViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener {
+
+    companion object {
+        const val CATEGORY_IMAGES = "CATEGORY_IMAGES"
+        const val COMPETITION_IMAGES = "COMPETITION_IMAGES"
+    }
 
     private lateinit var recyclerViewAdapter: HomeRecyclerViewAdapter
 
@@ -39,15 +40,26 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
                 HomeFragmentDirections.actionPlusButtonClicked()
             findNavController().navigate(action)
         }
-        //TODO autentikáció, user objektum létrezhozása a felhasználó adataival
         activity?.toolbar_main?.visibility = View.VISIBLE
         activity?.drawer_layout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
         setupRecyclerView()
 
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        homeViewModel.allImages.observe(viewLifecycleOwner) { categories ->
-            recyclerViewAdapter.addAll(categories)
+        homeViewModel.allImages.observe(viewLifecycleOwner) { images ->
+            recyclerViewAdapter.addAll(images)
+        }
+
+        when(arguments?.getString("type")) {
+            CATEGORY_IMAGES -> {
+                homeViewModel.getImagesByCategory(arguments?.getString("categoryId") ?: "")
+            }
+            COMPETITION_IMAGES -> {
+
+            }
+            else -> {
+                homeViewModel.getAllImages()
+            }
         }
 
 }

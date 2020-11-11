@@ -15,6 +15,11 @@ class CompetitionViewModel : ViewModel() {
 
     init {
         repository = CompetitionRepository()
+        getAllCompetitions()
+    }
+
+    fun getAllCompetitions() {
+        allCompetitions.value?.clear()
         repository.getAllCompetitions(this::addCompetitions, this::showError)
     }
 

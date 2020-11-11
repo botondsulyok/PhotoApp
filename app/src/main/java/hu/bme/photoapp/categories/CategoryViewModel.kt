@@ -14,6 +14,11 @@ class CategoryViewModel : ViewModel() {
 
     init {
         repository = CategoryRepository()
+        getAllCategories()
+    }
+
+    fun getAllCategories() {
+        allCategories.value?.clear()
         repository.getAllCategories(this::addCategories, this::showError)
     }
 

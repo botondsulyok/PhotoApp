@@ -50,11 +50,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_home -> {
-                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_global_nav_home_clicked)
+                findNavController(R.id.nav_host_fragment).navigate(R.id.action_global_nav_home_clicked)
                 drawer.closeDrawer(GravityCompat.START)
             }
             R.id.nav_categories -> {
-                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_global_nav_categories_clicked)
+                findNavController(R.id.nav_host_fragment).navigate(R.id.action_global_nav_categories_clicked)
                 drawer.closeDrawer(GravityCompat.START)
             }
             R.id.nav_competitions -> {

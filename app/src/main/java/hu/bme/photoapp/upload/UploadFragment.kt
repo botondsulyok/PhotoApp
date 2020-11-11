@@ -20,6 +20,7 @@ import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import hu.bme.photoapp.R
+import hu.bme.photoapp.home.HomeFragment
 import hu.bme.photoapp.home.HomeFragmentDirections
 import kotlinx.android.synthetic.main.fragment_upload.*
 

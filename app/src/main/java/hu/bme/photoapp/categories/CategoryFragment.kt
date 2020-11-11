@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import hu.bme.photoapp.R
+import hu.bme.photoapp.home.HomeFragment
+import hu.bme.photoapp.home.HomeFragmentDirections
 import kotlinx.android.synthetic.main.fragment_categories.*
 
 
@@ -41,7 +44,9 @@ class CategoryFragment : Fragment(), CategoryRecyclerViewAdapter.CategoryItemCli
     }
 
     override fun onItemClick(category: Category) {
-        //TODO megfelelő kategórialista megnyitása
+        val action =
+            CategoryFragmentDirections.actionCategorySelected(category._id, HomeFragment.CATEGORY_IMAGES)
+        findNavController().navigate(action)
     }
 
 

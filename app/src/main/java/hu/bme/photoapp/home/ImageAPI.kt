@@ -27,7 +27,8 @@ interface ImageAPI {
     @POST("photos/{id}")
     fun likeImage(
         @Path("id") id: String,
-        @Part likeID: String = "like"
+        @Part likeID: String = "like",
+        @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<ResponseBody>
 
     //TODO nem jó
@@ -42,6 +43,13 @@ interface ImageAPI {
     @GET()
     fun getComments(
 
+        @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<List<Comment>>
+
+    @POST()
+    fun postComment(
+        @Body text: String,
+        @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
+    ): Call<ResponseBody>
 
 }

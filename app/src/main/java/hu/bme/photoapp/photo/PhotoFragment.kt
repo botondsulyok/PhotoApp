@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -24,6 +25,8 @@ class PhotoFragment : Fragment() {
     private lateinit var recyclerViewAdapter: CommentRecyclerViewAdapter
 
     private lateinit var homeViewModel: HomeViewModel
+
+    private lateinit var commentViewModel: CommentViewModel
 
     private val args: PhotoFragmentArgs by navArgs()
 
@@ -52,10 +55,6 @@ class PhotoFragment : Fragment() {
 
         setupRecyclerView()
 
-
-
-
-
         val demo = listOf(
             Comment("user", "text"),
             Comment("user", "text"),
@@ -65,12 +64,18 @@ class PhotoFragment : Fragment() {
 
         recyclerViewAdapter.addAll(demo)
 
-        /*
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        homeViewModel.allImages.observe(viewLifecycleOwner) { images ->
-            recyclerViewAdapter.addAll(images)
+        commentViewModel = ViewModelProvider(this).get(CommentViewModel::class.java)
+        commentViewModel.allComments.observe(viewLifecycleOwner) { comments ->
+            recyclerViewAdapter.addAll(comments)
         }
-         */
+        commentViewModel.getAllComments()
+
+        btnComment.setOnClickListener {
+            if(etComment.text?.equals("") == false) {
+
+            }
+        }
+
     }
 
     private fun setupRecyclerView() {
@@ -89,6 +94,11 @@ class PhotoFragment : Fragment() {
 
     private fun onSuccessLike() {
         activity?.window?.decorView?.let { Snackbar.make(it, "Liked", Snackbar.LENGTH_SHORT).show() }
+    }
+
+    private fun onSuccessComment() {
+        activity?.window?.decorView?.let { Snackbar.make(it, "Done", Snackbar.LENGTH_SHORT).show() }
+        commentViewModel.getAllComments()
     }
 
 

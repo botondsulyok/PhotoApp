@@ -113,4 +113,22 @@ class HomeRepository {
         })
     }
 
+    fun postComment(text: String,
+                  onSuccess: () -> Unit,
+                  onError: (Throwable) -> Unit
+    ) {
+        val postCommentRequest = imageAPI.postComment(text)
+
+        postCommentRequest.enqueue(object: Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                onError(t)
+            }
+
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                onSuccess()
+            }
+
+        })
+    }
+
 }

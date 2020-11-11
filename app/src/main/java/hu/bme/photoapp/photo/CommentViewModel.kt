@@ -19,6 +19,10 @@ class CommentViewModel : ViewModel() {
         repository.getAllComments(this::addComments, this::showError)
     }
 
+    fun postComment(text: String, onSuccess :() -> Unit) {
+        repository.postComment(text, onSuccess, this::showError)
+    }
+
     private fun addComments(comments: List<Comment>) {
         allComments.postValue(comments.toMutableList())
     }

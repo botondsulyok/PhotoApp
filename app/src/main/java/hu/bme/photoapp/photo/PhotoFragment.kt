@@ -59,19 +59,10 @@ class PhotoFragment : Fragment() {
 
         setupRecyclerView()
 
-        /*
-        val demo = listOf(
-            Comment("user", "text"),
-            Comment("user", "text"),
-            Comment("user", "text"),
-            Comment("user", "text")
-        )
-        recyclerViewAdapter.addAll(demo)
-         */
-
         commentViewModel = ViewModelProvider(this).get(CommentViewModel::class.java)
         commentViewModel.allComments.observe(viewLifecycleOwner) { commentContainer ->
             recyclerViewAdapter.addAll(commentContainer[0].comment.toList())
+            tvComments.text = "Comments: " + recyclerViewAdapter.itemCount
         }
 
         btnComment.setOnClickListener {
@@ -92,21 +83,30 @@ class PhotoFragment : Fragment() {
         //(activity as AppCompatActivity?)?.supportActionBar?.title = image.title
         tvPhotoName.text = image.title
         //tvCreator.text = image.owner
-        tvLikes.text = image.likes.toString()
+        tvLikes.text = "Likes: " + image.likes.toString()
         //tvPhotoName.visibility = View.VISIBLE
         //TODO tvDesc.text = image.desc
 
         commentViewModel.getAllComments(image._id)
-
     }
 
     private fun onSuccessLike() {
-        activity?.window?.decorView?.let { Snackbar.make(it, "Liked", Snackbar.LENGTH_SHORT).show() }
+        view?.let { Snackbar.make(it, "Liked", Snackbar.LENGTH_SHORT)
+            .setAction("Close") {
+
+            }
+            .show() }
+
         homeViewModel.getImage(args.id, this::onSuccessGetImage)
     }
 
     private fun onSuccessComment() {
-        activity?.window?.decorView?.let { Snackbar.make(it, "Done", Snackbar.LENGTH_SHORT).show() }
+        view?.let { Snackbar.make(it, "Done", Snackbar.LENGTH_SHORT)
+            .setAction("Close") {
+
+            }
+            .show() }
+
         etComment.setText("")
         commentViewModel.getAllComments(image._id)
     }

@@ -1,5 +1,7 @@
 package hu.bme.photoapp.home
 
+import hu.bme.photoapp.categories.Category
+import hu.bme.photoapp.competitions.Competition
 import hu.bme.photoapp.model.MainActivityViewModel
 import hu.bme.photoapp.photo.Comment
 import hu.bme.photoapp.photo.CommentContainer
@@ -34,15 +36,34 @@ interface ImageAPI {
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<ResponseBody>
 
-    //TODO nem jó
+    /*
+     //TODO nem jó
     @GET("categories/{categoryID}/photoList")
     fun getImagesByCategory(
         @Path("categoryID") categoryID: String,
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<List<Image>>
+     */
+
+    @GET("categories/{categoryID}")
+    fun getCategory(
+        @Path("categoryID") categoryID: String,
+        @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
+    ): Call<Category>
+
+    @GET("competitions/{competitionID}")
+    fun getCompetition(
+        @Path("competitionID") competitionID: String,
+        @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
+    ): Call<Competition>
+
 
 
     //TODO post - fotó feltöltését megírni
+    @POST()
+    fun postPhoto(
+
+    ): Call<ResponseBody>
 
 
     @GET("photos/{id}/comment")

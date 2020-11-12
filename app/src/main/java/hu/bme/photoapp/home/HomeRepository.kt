@@ -1,6 +1,8 @@
 package hu.bme.photoapp.home
 
 import android.util.Log
+import hu.bme.photoapp.categories.Category
+import hu.bme.photoapp.competitions.Competition
 import hu.bme.photoapp.model.MainActivityViewModel
 import hu.bme.photoapp.photo.Comment
 import hu.bme.photoapp.photo.CommentContainer
@@ -59,19 +61,38 @@ class HomeRepository {
         })
     }
 
-    fun getImagesByCategory(id: String,
-                            onSuccess: (List<Image>) -> Unit,
+    fun getCategory(id: String,
+                            onSuccess: (Category) -> Unit,
                             onError: (Throwable) -> Unit
     ) {
-        val getImagesByCategoryRequest = imageAPI.getImagesByCategory(id)
+        val getCategoryRequest = imageAPI.getCategory(id)
 
-        getImagesByCategoryRequest.enqueue(object: Callback<List<Image>> {
-            override fun onFailure(call: Call<List<Image>>, t: Throwable) {
+        getCategoryRequest.enqueue(object: Callback<Category> {
+            override fun onFailure(call: Call<Category>, t: Throwable) {
                 onError(t)
             }
             override fun onResponse(
-                call: Call<List<Image>>,
-                response: Response<List<Image>>
+                call: Call<Category>,
+                response: Response<Category>
+            ) {
+                response.body()?.let { onSuccess(it) }
+            }
+        })
+    }
+
+    fun getCompetition(id: String,
+                       onSuccess: (Competition) -> Unit,
+                       onError: (Throwable) -> Unit
+    ) {
+        val getCompetitionRequest = imageAPI.getCompetition(id)
+
+        getCompetitionRequest.enqueue(object: Callback<Competition> {
+            override fun onFailure(call: Call<Competition>, t: Throwable) {
+                onError(t)
+            }
+            override fun onResponse(
+                call: Call<Competition>,
+                response: Response<Competition>
             ) {
                 response.body()?.let { onSuccess(it) }
             }

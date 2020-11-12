@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
@@ -29,6 +30,9 @@ class CategoryFragment : Fragment(), CategoryRecyclerViewAdapter.CategoryItemCli
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as AppCompatActivity?)?.supportActionBar?.title = "Categories"
+
         setupRecyclerView()
 
         categoryViewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
@@ -45,9 +49,8 @@ class CategoryFragment : Fragment(), CategoryRecyclerViewAdapter.CategoryItemCli
 
     override fun onItemClick(category: Category) {
         val action =
-            CategoryFragmentDirections.actionCategorySelected(category._id, HomeFragment.CATEGORY_IMAGES)
+            CategoryFragmentDirections.actionCategorySelected(category._id, HomeFragment.CATEGORY_IMAGES, category.name)
         findNavController().navigate(action)
     }
-
 
 }

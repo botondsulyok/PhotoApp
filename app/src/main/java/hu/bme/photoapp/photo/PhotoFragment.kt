@@ -5,6 +5,7 @@ import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -41,6 +42,9 @@ class PhotoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as AppCompatActivity?)?.supportActionBar?.title = "Photo"
+
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         ivPhoto.apply {
             transitionName = args.imageUrl
@@ -85,6 +89,7 @@ class PhotoFragment : Fragment() {
 
     private fun onSuccessGetImage(i: Image) {
         image = i
+        //(activity as AppCompatActivity?)?.supportActionBar?.title = image.title
         tvPhotoName.text = image.title
         //tvCreator.text = image.owner
         tvLikes.text = image.likes.toString()

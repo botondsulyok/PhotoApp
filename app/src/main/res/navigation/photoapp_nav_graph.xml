@@ -69,13 +69,17 @@
             android:id="@+id/actionPlusButtonClicked"
             app:destination="@id/uploadFragment" />
         <argument
-            android:name="categoryId"
+            android:name="id"
             app:argType="string"
             android:defaultValue='""' />
         <argument
             android:name="type"
             app:argType="string"
             android:defaultValue='""' />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="All Photos" />
     </fragment>
     <fragment
         android:id="@+id/categoriesFragment"
@@ -84,7 +88,11 @@
         tools:layout="@layout/fragment_categories" >
         <action
             android:id="@+id/action_category_selected"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
     </fragment>
     <action
         android:id="@+id/action_global_nav_categories_clicked"
@@ -104,7 +112,15 @@
     <fragment
         android:id="@+id/competitionFragment"
         android:name="hu.bme.photoapp.competitions.CompetitionFragment"
-        android:label="CompetitionFragment" />
+        android:label="CompetitionFragment" >
+        <action
+            android:id="@+id/action_competition_selected"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+    </fragment>
     <action
         android:id="@+id/action_global_competitions_clicked"
         app:destination="@id/competitionFragment" />

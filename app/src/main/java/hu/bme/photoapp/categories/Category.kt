@@ -5,10 +5,9 @@ import hu.bme.photoapp.home.Image
 
 @JsonClass(generateAdapter = true)
 class Category(
-    val visibility: Boolean,
-    /*val photoList: MutableList<Image>,*/
-    val limit: Int,
-    val _id: String,
-    val name: String/*,
-    val creator: String*/
+    val visibility: Boolean = false,
+    val photoList: List<Image> = listOf(),
+    val limit: Int = 0,
+    val _id: String = "",
+    val name: String = ""
 )

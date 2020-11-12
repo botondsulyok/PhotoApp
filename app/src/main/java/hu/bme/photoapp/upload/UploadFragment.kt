@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.checkSelfPermission
@@ -43,6 +44,9 @@ class UploadFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //ez csak annyi hogy megváltoztatja a toolbar címét
+        (activity as AppCompatActivity?)?.supportActionBar?.title = "Upload Photo"
 
         make_photo_button.setOnClickListener {
             val permissionResult = ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA)

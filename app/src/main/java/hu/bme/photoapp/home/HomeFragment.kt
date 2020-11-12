@@ -3,6 +3,7 @@ package hu.bme.photoapp.home
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -43,6 +44,8 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
         activity?.toolbar_main?.visibility = View.VISIBLE
         activity?.drawer_layout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
+        (activity as AppCompatActivity?)?.supportActionBar?.title = arguments?.getString("title")
+
         setupRecyclerView()
 
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
@@ -52,10 +55,10 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
 
         when(arguments?.getString("type")) {
             CATEGORY_IMAGES -> {
-                homeViewModel.getImagesByCategory(arguments?.getString("categoryId") ?: "")
+                homeViewModel.getImagesByCategory(arguments?.getString("id") ?: "")
             }
             COMPETITION_IMAGES -> {
-
+                homeViewModel.getImagesByCompetition(arguments?.getString("id") ?: "")
             }
             else -> {
                 homeViewModel.getAllImages()

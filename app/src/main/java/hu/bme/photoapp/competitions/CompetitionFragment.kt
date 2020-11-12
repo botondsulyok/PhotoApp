@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import hu.bme.photoapp.R
+import hu.bme.photoapp.categories.CategoryFragmentDirections
+import hu.bme.photoapp.home.HomeFragment
 import kotlinx.android.synthetic.main.fragment_competitions.*
 
 
@@ -29,6 +33,9 @@ class CompetitionFragment : Fragment(), CompetitionRecyclerViewAdapter.Competiti
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as AppCompatActivity?)?.supportActionBar?.title = "Competitions"
+
         setupRecyclerView()
 
         competitionViewModel = ViewModelProvider(this).get(CompetitionViewModel::class.java)
@@ -44,7 +51,9 @@ class CompetitionFragment : Fragment(), CompetitionRecyclerViewAdapter.Competiti
     }
 
     override fun onItemClick(competition: Competition) {
-        //TODO megfelelő kategórialista megnyitása
+        val action =
+            CompetitionFragmentDirections.actionCompetitionSelected(competition._id, HomeFragment.COMPETITION_IMAGES, competition.name)
+        findNavController().navigate(action)
     }
 
 

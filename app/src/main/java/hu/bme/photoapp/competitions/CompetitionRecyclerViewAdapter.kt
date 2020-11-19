@@ -1,5 +1,6 @@
 package hu.bme.photoapp.competitions
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,16 +29,18 @@ class CompetitionRecyclerViewAdapter : RecyclerView.Adapter<CompetitionRecyclerV
         holder.competition = competition
         holder.tvCompetitionName.text = competition.name
 
+        //TODO rosszul jelzi ki a dátumot
         val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val formatter = SimpleDateFormat("yyyy.dd.MM.dd HH:mm")
         val date = formatter.format(parser.parse(competition.deadline))
         holder.tvCompetitionDate.text = date
 
-
-        //TODO vip verseny
-        /*if(competition.vip) {
+        if(!competition.currentVisibility) {
             holder.ivVip.visibility = View.VISIBLE
-        }*/
+            holder.itemView.setOnClickListener {
+                itemClickListener?.onItemClickDenied("This is a VIP competition!")
+            }
+        }
     }
 
     override fun getItemCount(): Int = competitionList.size
@@ -63,6 +66,7 @@ class CompetitionRecyclerViewAdapter : RecyclerView.Adapter<CompetitionRecyclerV
 
     interface CompetitionItemClickListener {
         fun onItemClick(competition: Competition)
+        fun onItemClickDenied(alert: String)
     }
 
 }

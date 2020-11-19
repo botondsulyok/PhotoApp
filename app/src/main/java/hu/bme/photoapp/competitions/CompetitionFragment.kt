@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
@@ -54,6 +55,16 @@ class CompetitionFragment : Fragment(), CompetitionRecyclerViewAdapter.Competiti
         val action =
             CompetitionFragmentDirections.actionCompetitionSelected(competition._id, HomeFragment.COMPETITION_IMAGES, competition.name)
         findNavController().navigate(action)
+    }
+
+    override fun onItemClickDenied(alert: String) {
+        context?.let {
+            AlertDialog.Builder(it)
+                .setTitle("Something went wrong")
+                .setMessage(alert)
+                .setNeutralButton("OK", null)
+                .show()
+        }
     }
 
 

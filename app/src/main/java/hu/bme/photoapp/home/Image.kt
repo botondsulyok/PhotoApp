@@ -8,7 +8,7 @@ class Image(
     val title: String = "",
     val likes: Int = 0,
     val ownImage: String = "",
-    val owner: String = ""
-    /*val description: String,*/
+    val owner: String = "",
+    val description: String = ""
 
 )

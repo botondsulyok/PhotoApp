@@ -26,7 +26,6 @@ interface ImageAPI {
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<Image>
 
-
     @FormUrlEncoded
     @PATCH("photos/{id}")
     fun likeImage(
@@ -35,15 +34,6 @@ interface ImageAPI {
         @Field("value") value: String,
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<ResponseBody>
-
-    /*
-     //TODO nem jó
-    @GET("categories/{categoryID}/photoList")
-    fun getImagesByCategory(
-        @Path("categoryID") categoryID: String,
-        @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
-    ): Call<List<Image>>
-     */
 
     @GET("categories/{categoryID}")
     fun getCategory(
@@ -56,7 +46,6 @@ interface ImageAPI {
         @Path("competitionID") competitionID: String,
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<Competition>
-
 
 
     //TODO post - fotó feltöltését megírni

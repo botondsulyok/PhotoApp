@@ -1,9 +1,13 @@
 package hu.bme.photoapp.home
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import hu.bme.photoapp.categories.Category
 import hu.bme.photoapp.competitions.Competition
+import hu.bme.photoapp.upload.UploadFragment
+import kotlinx.android.synthetic.main.fragment_upload.*
+import okhttp3.ResponseBody
 
 class HomeViewModel : ViewModel() {
 
@@ -52,6 +56,22 @@ class HomeViewModel : ViewModel() {
 
     private fun showError(t: Throwable) {
         t.printStackTrace()
+    }
+
+    fun postPhoto(
+        fileUri: Uri,
+        title: String,
+        description: String,
+        onSuccess: (ResponseBody) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        repository.postPhoto(
+            fileUri = fileUri,
+            title = title,
+            description = description,
+            onSuccess = onSuccess,
+            onError = onError
+        )
     }
 
 }

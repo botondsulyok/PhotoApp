@@ -184,7 +184,7 @@ class HomeRepository {
         onSuccess: (ResponseBody) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        val file = File(fileUri.path)
+        val file = File(fileUri.path.toString())
         val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
 
         val body = MultipartBody.Part.createFormData(

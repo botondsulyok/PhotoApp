@@ -13,13 +13,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.navigation.NavigationView
 import hu.bme.photoapp.R
-import hu.bme.photoapp.home.HomeFragment
 import hu.bme.photoapp.model.MainActivityViewModel
 import hu.bme.photoapp.model.RegisterUser
 import hu.bme.photoapp.model.User
 import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.android.synthetic.main.fragment_register.*
+import kotlinx.android.synthetic.main.nav_header_main.view.*
 
 
 class LoginFragment : Fragment() {
@@ -69,8 +69,10 @@ class LoginFragment : Fragment() {
 
     private fun onSuccess(user: User) {
         val mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-        //mainActivityViewModel.changeUser(user)
         MainActivityViewModel.user = user
+        val navigationView = activity?.findViewById<View>(R.id.nav_view) as NavigationView
+        val headerView = navigationView.getHeaderView(0)
+        headerView.tvEmail.text = etLoginEmail.text
         val action =
             LoginFragmentDirections.actionLoginSuccessful()
         findNavController().navigate(action)

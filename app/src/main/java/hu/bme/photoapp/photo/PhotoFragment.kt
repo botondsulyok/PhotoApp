@@ -9,10 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import hu.bme.photoapp.R
+import hu.bme.photoapp.home.HomeFragmentDirections
 import hu.bme.photoapp.home.HomeViewModel
 import hu.bme.photoapp.home.Image
 import hu.bme.photoapp.home.ImageAPI
@@ -44,11 +46,13 @@ class PhotoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (activity as AppCompatActivity?)?.supportActionBar?.title = "Photo"
+        (activity as AppCompatActivity?)?.supportActionBar?.show()
 
+        val imageUrl: String
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         ivPhoto.apply {
             transitionName = args.imageUrl
-            val imageUrl = transitionName.replace("\\", "/")
+            imageUrl = transitionName.replace("\\", "/")
             Glide.with(this).load(ImageAPI.BASE_URL+imageUrl).into(ivPhoto)
         }
         btnLike.setOnClickListener {
@@ -69,6 +73,12 @@ class PhotoFragment : Fragment() {
             if(etComment.text?.isEmpty() == false) {
                 commentViewModel.postComment(image._id, etComment.text.toString(), this::onSuccessComment)
             }
+        }
+
+        ivPhoto.setOnClickListener {
+            val action =
+                PhotoFragmentDirections.actionPhotoClicked(imageUrl)
+            findNavController().navigate(action)
         }
 
     }

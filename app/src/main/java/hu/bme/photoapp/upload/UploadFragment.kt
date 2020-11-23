@@ -1,16 +1,16 @@
 package hu.bme.photoapp.upload
 
 import android.Manifest
+import android.R.attr
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +22,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import hu.bme.photoapp.R
-import hu.bme.photoapp.competitions.CompetitionViewModel
-import hu.bme.photoapp.home.HomeRepository
 import hu.bme.photoapp.home.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_upload.*
 import okhttp3.ResponseBody
@@ -39,7 +37,6 @@ class UploadFragment : Fragment() {
         private const val PERMISSION_REQUEST_CODE = 1000
         private const val REQUEST_IMAGE_CAPTURE = 1001
         private const val IMAGE_PICK_CODE = 1002
-        private const val PERMISSION_CODE = 1003
         private var IMAGE_PATH = "/storage/emulated/0/DCIM/Camera/tmp_image.jpg"
         private var IMAGE_URI = Uri.fromFile(File(IMAGE_PATH))
 
@@ -58,15 +55,25 @@ class UploadFragment : Fragment() {
         (activity as AppCompatActivity?)?.supportActionBar?.title = "Upload Photo"
 
         make_photo_button.setOnClickListener {
-            when (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA)) {
-                PackageManager.PERMISSION_DENIED -> requestNeededPermission()
+            when (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.CAMERA
+            )) {
+                PackageManager.PERMISSION_DENIED -> requestNeededPermissionCamera()
             }
 
             when (ContextCompat.checkSelfPermission(
                 requireActivity(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             )) {
-                PackageManager.PERMISSION_DENIED -> requestNeededPermissionStorage()
+                PackageManager.PERMISSION_DENIED -> requestNeededPermissionWriteStorage()
+            }
+
+            when (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )) {
+                PackageManager.PERMISSION_DENIED -> requestNeededPermissionReadStorage()
             }
 
 
@@ -78,26 +85,23 @@ class UploadFragment : Fragment() {
             }
         }
 
-        upload_photo.setOnClickListener{
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                val permissionResult = ContextCompat.checkSelfPermission(
-                    requireActivity(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-                if (permissionResult == PackageManager.PERMISSION_DENIED){
-                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    requestPermissions(permissions, PERMISSION_CODE)
-                }
-                else{
-                    pickImageFromGallery()
-                }
+        upload_photo.setOnClickListener {
+            when (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )) {
+                PackageManager.PERMISSION_DENIED -> requestNeededPermissionReadStorage()
             }
-            else{
-                pickImageFromGallery()
+            when (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )) {
+                PackageManager.PERMISSION_DENIED -> requestNeededPermissionWriteStorage()
             }
+            pickImageFromGallery()
         }
 
-        upload_button.setOnClickListener{
+        upload_button.setOnClickListener {
             homeViewModel.postPhoto(
                 fileUri = IMAGE_URI,
                 title = name_text_field.text.toString(),
@@ -114,13 +118,14 @@ class UploadFragment : Fragment() {
             UploadFragmentDirections.actionUploadFragmentToHomeFragment()
         findNavController().navigate(action)
     }
+
     private fun uploadError(e: Throwable) {
         Toast.makeText(activity, "Error during uploading photo!", Toast.LENGTH_SHORT).show()
         e.printStackTrace()
     }
 
     private fun pickImageFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         startActivityForResult(intent, IMAGE_PICK_CODE)
     }
@@ -135,24 +140,28 @@ class UploadFragment : Fragment() {
             imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
             val byteArray: ByteArray = stream.toByteArray()
             saveImageOnExternalData(IMAGE_PATH, byteArray)
+            IMAGE_URI = Uri.fromFile(File(IMAGE_PATH))
         }
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             ivPhoto.setImageURI(data?.data)
-            IMAGE_URI = data?.data
+            //TODO nem jó a file uri a név miatt
+            Log.e("uri", data?.data?.lastPathSegment.toString())
         }
     }
 
 
-    private fun requestNeededPermission() {
+    private fun requestNeededPermissionCamera() {
         if (ContextCompat.checkSelfPermission(
                 requireActivity(),
                 Manifest.permission.CAMERA
             ) !=
-            PackageManager.PERMISSION_GRANTED) {
+            PackageManager.PERMISSION_GRANTED
+        ) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
                     Manifest.permission.CAMERA
-                )) {
+                )
+            ) {
                 Toast.makeText(
                     requireActivity(),
                     "I need it for camera", Toast.LENGTH_SHORT
@@ -189,16 +198,18 @@ class UploadFragment : Fragment() {
         }
     }
 
-    private fun requestNeededPermissionStorage() {
+    private fun requestNeededPermissionWriteStorage() {
         if (ContextCompat.checkSelfPermission(
                 requireActivity(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) !=
-            PackageManager.PERMISSION_GRANTED) {
+            PackageManager.PERMISSION_GRANTED
+        ) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )) {
+                )
+            ) {
                 Toast.makeText(
                     requireActivity(),
                     "I need it for camera", Toast.LENGTH_SHORT
@@ -212,10 +223,35 @@ class UploadFragment : Fragment() {
         }
     }
 
-    fun saveImageOnExternalData(filePath: String?, fileData: ByteArray?): Boolean {
+    private fun requestNeededPermissionReadStorage() {
+        if (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            ) {
+                Toast.makeText(
+                    requireActivity(),
+                    "I need it for camera", Toast.LENGTH_SHORT
+                ).show()
+            }
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                PERMISSION_REQUEST_CODE
+            )
+        }
+    }
+
+    private fun saveImageOnExternalData(filePath: String?, fileData: ByteArray?): Boolean {
         var isFileSaved = false
         try {
-            val f = File(filePath)
+            val f = File(filePath.toString())
             if (f.exists()) f.delete()
             f.createNewFile()
             val fos = FileOutputStream(f)
@@ -223,7 +259,6 @@ class UploadFragment : Fragment() {
             fos.flush()
             fos.close()
             isFileSaved = true
-            // File Saved
         } catch (e: FileNotFoundException) {
             println("FileNotFoundException")
             e.printStackTrace()
@@ -232,42 +267,5 @@ class UploadFragment : Fragment() {
             e.printStackTrace()
         }
         return isFileSaved
-        // File Not Saved
     }
-    /*@Throws(IOException::class)
-    private fun createImageFile(): File {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File = File(activity?.filesDir?.toURI().toString())
-        return File.createTempFile(
-            "JPEG_${timeStamp}_",
-            ".jpg",
-            storageDir
-        ).apply {
-            currentPhotoPath = absolutePath
-        }
-    }
-
-    private fun dispatchTakePictureIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
-                val photoFile: File? = try {
-                    createImageFile()
-                } catch (ex: IOException) {
-                    ex.printStackTrace()
-                    null
-                }
-                photoFile?.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(
-                        requireContext(),
-                        "com.example.android.fileprovider",
-                        it
-                    )
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                }
-            }
-        }
-    }*/
-
-
 }

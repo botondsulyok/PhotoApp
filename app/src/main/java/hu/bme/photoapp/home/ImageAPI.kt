@@ -5,6 +5,8 @@ import hu.bme.photoapp.competitions.Competition
 import hu.bme.photoapp.model.MainActivityViewModel
 import hu.bme.photoapp.photo.Comment
 import hu.bme.photoapp.photo.CommentContainer
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -13,6 +15,8 @@ interface ImageAPI {
 
     companion object {
         const val BASE_URL = "http://10.0.2.2:3000/"
+        const val MULTIPART_FORM_DATA = "multipart/form-data"
+        const val PHOTO_MULTIPART_KEY_IMG = "image"
     }
 
 
@@ -26,6 +30,7 @@ interface ImageAPI {
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<Image>
 
+
     @FormUrlEncoded
     @PATCH("photos/{id}")
     fun likeImage(
@@ -34,6 +39,15 @@ interface ImageAPI {
         @Field("value") value: String,
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<ResponseBody>
+
+    /*
+     //TODO nem jó
+    @GET("categories/{categoryID}/photoList")
+    fun getImagesByCategory(
+        @Path("categoryID") categoryID: String,
+        @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
+    ): Call<List<Image>>
+     */
 
     @GET("categories/{categoryID}")
     fun getCategory(
@@ -48,10 +62,13 @@ interface ImageAPI {
     ): Call<Competition>
 
 
-    //TODO post - fotó feltöltését megírni
-    @POST()
-    fun postPhoto(
 
+    @Multipart
+    @POST("photos")
+    fun postPhoto(@Part ownImage: MultipartBody.Part,
+                  @Part("title") title: RequestBody,
+                  @Part("description") description: RequestBody,
+                  @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<ResponseBody>
 
 

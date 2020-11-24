@@ -9,6 +9,6 @@ class Image(
     val likes: Int = 0,
     val ownImage: String = "",
     val owner: String = "",
-    val description: String = ""
+    val description: String =""
 
 )

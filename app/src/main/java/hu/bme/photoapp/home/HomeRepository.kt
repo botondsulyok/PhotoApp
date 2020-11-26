@@ -1,14 +1,8 @@
 package hu.bme.photoapp.home
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-=======
->>>>>>> parent of c959613... a
-=======
->>>>>>> parent of c959613... a
 import android.net.Uri
 import android.util.Log
 import com.koushikdutta.ion.Ion
@@ -190,34 +184,14 @@ class HomeRepository {
     }
 
     fun postPhoto(
-        fileUri: Uri,
+        filePath: String,
         title: String,
         description: String,
-        context: Context,
-        onSuccess: (ResponseBody?) -> Unit,
+        onSuccess: (ResponseBody) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-        Ion.with(context)
-            .load("POST", MainActivityAPI.BASE_URL + "photos")
-            .setHeader("Authorization", "bearer " + MainActivityViewModel.user.token)
-            .setMultipartParameter("title", title)
-            .setMultipartParameter("description", description)
-            .setMultipartFile("ownImage", "image/jpg", File(filePath))
-            .asJsonObject()
-            .setCallback { e, result ->
-                if(e == null) {
-                    onSuccess(null)
-                }
-                else {
-                    onError(e)
-                }
-=======
-=======
->>>>>>> parent of c959613... a
-        val file = File(fileUri.path.toString())
+        val file = File(filePath)
         val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
 
         val body = MultipartBody.Part.createFormData(
@@ -230,7 +204,7 @@ class HomeRepository {
         val filePart: MultipartBody.Part = MultipartBody.Part.createFormData(
             "ownImage",
             file.name,
-            file.asRequestBody("image/*".toMediaTypeOrNull())
+            file.asRequestBody(("image/" + file.extension).toMediaTypeOrNull())
         )
 
         val descriptionParam = description.toRequestBody(MultipartBody.FORM)
@@ -241,10 +215,12 @@ class HomeRepository {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 onError(t)
                 Log.e("hiba1", t.message.toString())
->>>>>>> parent of c959613... a
             }
 
-
-
-    }
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                response.body()?.let { onSuccess(it) }
+            }
+        })
 }
+}
+

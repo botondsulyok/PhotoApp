@@ -1,13 +1,17 @@
 package hu.bme.photoapp.home
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
+import com.koushikdutta.ion.Ion
 import hu.bme.photoapp.categories.Category
 import hu.bme.photoapp.competitions.Competition
 import hu.bme.photoapp.home.ImageAPI.Companion.MULTIPART_FORM_DATA
 import hu.bme.photoapp.home.ImageAPI.Companion.PHOTO_MULTIPART_KEY_IMG
+import hu.bme.photoapp.model.MainActivityAPI
+import hu.bme.photoapp.model.MainActivityViewModel
 import hu.bme.photoapp.photo.CommentContainer
 import okhttp3.MediaType
 import okhttp3.ResponseBody
@@ -184,36 +188,28 @@ class HomeRepository {
         filePath: String,
         title: String,
         description: String,
-        onSuccess: (ResponseBody) -> Unit,
+        context: Context,
+        onSuccess: (ResponseBody?) -> Unit,
         onError: (Throwable) -> Unit
     ) {
 
-        val file = File(filePath)
-        val requestFile = file.asRequestBody(MULTIPART_FORM_DATA.toMediaTypeOrNull())
-
-        val body = MultipartBody.Part.createFormData(
-            PHOTO_MULTIPART_KEY_IMG,
-            file.name,
-            requestFile
-        )
-
-        val nameParam = title.toRequestBody(MultipartBody.FORM)
-        val descriptionParam = description.toRequestBody(MultipartBody.FORM)
-
-        val uploadImageRequest = imageAPI.postPhoto(body, nameParam, descriptionParam)
-
-        uploadImageRequest.enqueue(object : Callback<ResponseBody> {
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                onError(t)
-                Log.e("hiba1", t.message.toString())
+        Ion.with(context)
+            .load("POST", MainActivityAPI.BASE_URL + "photos")
+            .setHeader("Authorization", "bearer " + MainActivityViewModel.user.token)
+            .setMultipartParameter("title", title)
+            .setMultipartParameter("description", description)
+            .setMultipartFile("ownImage", "image/jpg", File(filePath))
+            .asJsonObject()
+            .setCallback { e, result ->
+                if(e.message == null) {
+                    onSuccess(null)
+                }
+                else {
+                    onError(e)
+                }
             }
 
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                response.body()?.let { onSuccess(it) }
-                Log.e("hiba2", response.body().toString())
-                Log.e("hiba3", nameParam.toString())
-            }
 
-        })
+
     }
 }

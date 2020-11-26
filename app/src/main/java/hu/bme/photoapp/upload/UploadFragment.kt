@@ -21,8 +21,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.koushikdutta.ion.Ion
 import hu.bme.photoapp.R
 import hu.bme.photoapp.home.HomeViewModel
+import hu.bme.photoapp.model.MainActivityViewModel
 import kotlinx.android.synthetic.main.fragment_upload.*
 import okhttp3.ResponseBody
 import java.io.File
@@ -108,13 +110,16 @@ class UploadFragment : Fragment() {
         }
 
         upload_button.setOnClickListener {
-            homeViewModel.postPhoto(
-                filePath = currentPhotoPath,
-                title = name_text_field.text.toString(),
-                description = description_field.text.toString(),
-                onSuccess = this::uploadSuccess,
-                onError = this::uploadError
-            )
+            context?.let { it1 ->
+                homeViewModel.postPhoto(
+                    filePath = currentPhotoPath,
+                    title = name_text_field.text.toString(),
+                    description = description_field.text.toString(),
+                    context = it1,
+                    onSuccess = this::uploadSuccess,
+                    onError = this::uploadError
+                )
+            }
         }
     }
 
@@ -133,7 +138,7 @@ class UploadFragment : Fragment() {
         }
     }
 
-    private fun uploadSuccess(responseBody: ResponseBody) {
+    private fun uploadSuccess(responseBody: ResponseBody?) {
         Toast.makeText(activity, "Successfully uploaded!", Toast.LENGTH_SHORT).show()
         val action =
             UploadFragmentDirections.actionUploadFragmentToHomeFragment()

@@ -1,8 +1,11 @@
 package hu.bme.photoapp.home
 
+<<<<<<< HEAD
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+=======
+>>>>>>> parent of c959613... a
 import android.net.Uri
 import android.util.Log
 import com.koushikdutta.ion.Ion
@@ -14,6 +17,11 @@ import hu.bme.photoapp.model.MainActivityAPI
 import hu.bme.photoapp.model.MainActivityViewModel
 import hu.bme.photoapp.photo.CommentContainer
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,12 +29,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import java.io.ByteArrayOutputStream
 
 
 class HomeRepository {
@@ -185,13 +187,14 @@ class HomeRepository {
     }
 
     fun postPhoto(
-        filePath: String,
+        fileUri: Uri,
         title: String,
         description: String,
         context: Context,
         onSuccess: (ResponseBody?) -> Unit,
         onError: (Throwable) -> Unit
     ) {
+<<<<<<< HEAD
 
         Ion.with(context)
             .load("POST", MainActivityAPI.BASE_URL + "photos")
@@ -207,6 +210,32 @@ class HomeRepository {
                 else {
                     onError(e)
                 }
+=======
+        val file = File(fileUri.path.toString())
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+
+        val body = MultipartBody.Part.createFormData(
+            PHOTO_MULTIPART_KEY_IMG,
+            file.name,
+            requestFile
+        )
+        val nameParam = title.toRequestBody(MultipartBody.FORM)
+
+        val filePart: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "ownImage",
+            file.name,
+            file.asRequestBody("image/*".toMediaTypeOrNull())
+        )
+
+        val descriptionParam = description.toRequestBody(MultipartBody.FORM)
+        val uploadImageRequest = imageAPI.postPhoto(body, nameParam, descriptionParam)
+
+
+        uploadImageRequest.enqueue(object : Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                onError(t)
+                Log.e("hiba1", t.message.toString())
+>>>>>>> parent of c959613... a
             }
 
 

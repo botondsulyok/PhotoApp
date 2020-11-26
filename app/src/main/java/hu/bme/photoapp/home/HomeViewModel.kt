@@ -60,7 +60,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun postPhoto(
-        filePath: String,
+        fileUri: Uri,
         title: String,
         description: String,
         context: Context,
@@ -68,7 +68,7 @@ class HomeViewModel : ViewModel() {
         onError: (Throwable) -> Unit
     ) {
         repository.postPhoto(
-            filePath = filePath,
+            fileUri = fileUri,
             title = title,
             description = description,
             context = context,

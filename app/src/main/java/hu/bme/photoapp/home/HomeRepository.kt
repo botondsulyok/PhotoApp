@@ -192,13 +192,7 @@ class HomeRepository {
     ) {
 
         val file = File(filePath)
-        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
 
-        val body = MultipartBody.Part.createFormData(
-            PHOTO_MULTIPART_KEY_IMG,
-            file.name,
-            requestFile
-        )
         val nameParam = title.toRequestBody(MultipartBody.FORM)
 
         val filePart: MultipartBody.Part = MultipartBody.Part.createFormData(
@@ -208,7 +202,7 @@ class HomeRepository {
         )
 
         val descriptionParam = description.toRequestBody(MultipartBody.FORM)
-        val uploadImageRequest = imageAPI.postPhoto(body, nameParam, descriptionParam)
+        val uploadImageRequest = imageAPI.postPhoto(filePart, nameParam, descriptionParam)
 
 
         uploadImageRequest.enqueue(object : Callback<ResponseBody> {

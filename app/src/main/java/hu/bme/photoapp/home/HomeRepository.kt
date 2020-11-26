@@ -201,7 +201,7 @@ class HomeRepository {
             .setMultipartFile("ownImage", "image/jpg", File(filePath))
             .asJsonObject()
             .setCallback { e, result ->
-                if(e.message == null) {
+                if(e == null) {
                     onSuccess(null)
                 }
                 else {

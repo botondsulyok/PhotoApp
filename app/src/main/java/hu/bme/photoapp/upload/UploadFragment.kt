@@ -42,7 +42,7 @@ class UploadFragment : Fragment() {
         private const val PERMISSION_REQUEST_CODE = 1000
         private const val REQUEST_IMAGE_CAPTURE = 1001
         private const val IMAGE_PICK_CODE = 1002
-        private lateinit var IMAGE_URI: Uri
+        private var IMAGE_URI: Uri? = null
 
     }
 
@@ -108,13 +108,13 @@ class UploadFragment : Fragment() {
         }
 
         upload_button.setOnClickListener {
-            homeViewModel.postPhoto(
-                filePath = currentPhotoPath,
-                title = name_text_field.text.toString(),
-                description = description_field.text.toString(),
-                onSuccess = this::uploadSuccess,
-                onError = this::uploadError
-            )
+                homeViewModel.postPhoto(
+                    filePath =currentPhotoPath,
+                    title = name_text_field.text.toString(),
+                    description = description_field.text.toString(),
+                    onSuccess = this::uploadSuccess,
+                    onError = this::uploadError
+                )
         }
     }
 
@@ -158,9 +158,8 @@ class UploadFragment : Fragment() {
             Glide.with(this).load(IMAGE_URI).into(ivPhoto)
         }
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            ivPhoto.setImageURI(data?.data)
-            //TODO nem jó a file uri a név miatt
-            Log.e("uri", data?.data?.lastPathSegment.toString())
+            IMAGE_URI = data?.data
+            Glide.with(this).load(IMAGE_URI).into(ivPhoto)
         }
     }
 

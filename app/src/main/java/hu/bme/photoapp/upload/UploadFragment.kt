@@ -22,11 +22,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 <<<<<<< HEAD
-<<<<<<< HEAD
 import com.bumptech.glide.Glide
 import com.koushikdutta.ion.Ion
-=======
->>>>>>> parent of c959613... a
 =======
 >>>>>>> parent of c959613... a
 import hu.bme.photoapp.R
@@ -112,7 +109,6 @@ class UploadFragment : Fragment() {
 
         upload_button.setOnClickListener {
 <<<<<<< HEAD
-<<<<<<< HEAD
             context?.let { it1 ->
                 homeViewModel.postPhoto(
                     filePath = currentPhotoPath,
@@ -153,18 +149,6 @@ class UploadFragment : Fragment() {
         }
     }
 
-=======
-            homeViewModel.postPhoto(
-                fileUri = IMAGE_URI,
-                title = name_text_field.text.toString(),
-                description = description_field.text.toString(),
-                onSuccess = this::uploadSuccess,
-                onError = this::uploadError
-            )
-        }
-    }
-
->>>>>>> parent of c959613... a
     private fun uploadSuccess(responseBody: ResponseBody) {
 >>>>>>> parent of c959613... a
         Toast.makeText(activity, "Successfully uploaded!", Toast.LENGTH_SHORT).show()

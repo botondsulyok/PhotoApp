@@ -1,12 +1,9 @@
 package hu.bme.photoapp.home
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-=======
->>>>>>> parent of c959613... a
 =======
 >>>>>>> parent of c959613... a
 import android.net.Uri
@@ -198,7 +195,6 @@ class HomeRepository {
         onError: (Throwable) -> Unit
     ) {
 <<<<<<< HEAD
-<<<<<<< HEAD
 
         Ion.with(context)
             .load("POST", MainActivityAPI.BASE_URL + "photos")
@@ -215,8 +211,6 @@ class HomeRepository {
                     onError(e)
                 }
 =======
-=======
->>>>>>> parent of c959613... a
         val file = File(fileUri.path.toString())
         val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
 

@@ -59,14 +59,14 @@ class HomeViewModel : ViewModel() {
     }
 
     fun postPhoto(
-        fileUri: Uri,
+        filePath: String,
         title: String,
         description: String,
         onSuccess: (ResponseBody) -> Unit,
         onError: (Throwable) -> Unit
     ) {
         repository.postPhoto(
-            fileUri = fileUri,
+            filePath = filePath,
             title = title,
             description = description,
             onSuccess = onSuccess,

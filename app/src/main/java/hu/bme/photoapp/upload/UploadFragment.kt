@@ -1,14 +1,12 @@
 package hu.bme.photoapp.upload
 
 import android.Manifest
-import android.R.attr
 import android.app.Activity.RESULT_OK
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,14 +16,21 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import hu.bme.photoapp.R
 import hu.bme.photoapp.home.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_upload.*
 import okhttp3.ResponseBody
-import java.io.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class UploadFragment : Fragment() {
@@ -37,8 +42,7 @@ class UploadFragment : Fragment() {
         private const val PERMISSION_REQUEST_CODE = 1000
         private const val REQUEST_IMAGE_CAPTURE = 1001
         private const val IMAGE_PICK_CODE = 1002
-        private var IMAGE_PATH = "/storage/emulated/0/DCIM/Camera/tmp_image.jpg"
-        private var IMAGE_URI = Uri.fromFile(File(IMAGE_PATH))
+        private lateinit var IMAGE_URI: Uri
 
     }
 
@@ -76,13 +80,15 @@ class UploadFragment : Fragment() {
                 PackageManager.PERMISSION_DENIED -> requestNeededPermissionReadStorage()
             }
 
-
             val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            try {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-            } catch (e: ActivityNotFoundException) {
-                e.printStackTrace()
-            }
+            val photoFile: File = createImageFile()
+            IMAGE_URI = FileProvider.getUriForFile(
+                requireActivity(),
+                "hu.bme.aut.android.fileprovider",
+                photoFile
+            )
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_URI)
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
         }
 
         upload_photo.setOnClickListener {
@@ -103,12 +109,27 @@ class UploadFragment : Fragment() {
 
         upload_button.setOnClickListener {
             homeViewModel.postPhoto(
-                fileUri = IMAGE_URI,
+                filePath = currentPhotoPath,
                 title = name_text_field.text.toString(),
                 description = description_field.text.toString(),
                 onSuccess = this::uploadSuccess,
                 onError = this::uploadError
             )
+        }
+    }
+
+    lateinit var currentPhotoPath: String
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
         }
     }
 
@@ -134,13 +155,7 @@ class UploadFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val imageBitmap = data?.extras?.get("data") as Bitmap
-            ivPhoto.setImageBitmap(imageBitmap)
-            val stream = ByteArrayOutputStream()
-            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            val byteArray: ByteArray = stream.toByteArray()
-            saveImageOnExternalData(IMAGE_PATH, byteArray)
-            IMAGE_URI = Uri.fromFile(File(IMAGE_PATH))
+            Glide.with(this).load(IMAGE_URI).into(ivPhoto)
         }
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             ivPhoto.setImageURI(data?.data)

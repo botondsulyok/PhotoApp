@@ -189,18 +189,18 @@ class HomeRepository {
     ) {
 
         val file = File(filePath)
-        val requestFile = file.asRequestBody(MULTIPART_FORM_DATA.toMediaTypeOrNull())
-
-        val body = MultipartBody.Part.createFormData(
-            PHOTO_MULTIPART_KEY_IMG,
-            file.name,
-            requestFile
-        )
 
         val nameParam = title.toRequestBody(MultipartBody.FORM)
-        val descriptionParam = description.toRequestBody(MultipartBody.FORM)
 
-        val uploadImageRequest = imageAPI.postPhoto(body, nameParam, descriptionParam)
+        val filePart: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "ownImage",
+            file.name,
+            file.asRequestBody(("image/" + file.extension).toMediaTypeOrNull())
+        )
+
+        val descriptionParam = description.toRequestBody(MultipartBody.FORM)
+        val uploadImageRequest = imageAPI.postPhoto(filePart, nameParam, descriptionParam)
+
 
         uploadImageRequest.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -210,10 +210,7 @@ class HomeRepository {
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 response.body()?.let { onSuccess(it) }
-                Log.e("hiba2", response.body().toString())
-                Log.e("hiba3", nameParam.toString())
             }
-
         })
     }
 }

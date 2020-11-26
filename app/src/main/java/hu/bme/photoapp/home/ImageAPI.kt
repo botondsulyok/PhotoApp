@@ -16,7 +16,7 @@ interface ImageAPI {
     companion object {
         const val BASE_URL = "http://10.0.2.2:3000/"
         const val MULTIPART_FORM_DATA = "multipart/form-data"
-        const val PHOTO_MULTIPART_KEY_IMG = "image"
+        const val PHOTO_MULTIPART_KEY_IMG = "ownImage"
     }
 
 

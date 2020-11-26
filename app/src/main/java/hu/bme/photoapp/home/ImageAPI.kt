@@ -2,7 +2,6 @@ package hu.bme.photoapp.home
 
 import hu.bme.photoapp.categories.Category
 import hu.bme.photoapp.competitions.Competition
-import hu.bme.photoapp.model.MainActivityAPI
 import hu.bme.photoapp.model.MainActivityViewModel
 import hu.bme.photoapp.photo.Comment
 import hu.bme.photoapp.photo.CommentContainer
@@ -15,9 +14,9 @@ import retrofit2.http.*
 interface ImageAPI {
 
     companion object {
-        const val BASE_URL = MainActivityAPI.BASE_URL
+        const val BASE_URL = "http://10.0.2.2:3000/"
         const val MULTIPART_FORM_DATA = "multipart/form-data"
-        const val PHOTO_MULTIPART_KEY_IMG = "ownImage"
+        const val PHOTO_MULTIPART_KEY_IMG = "image"
     }
 
 

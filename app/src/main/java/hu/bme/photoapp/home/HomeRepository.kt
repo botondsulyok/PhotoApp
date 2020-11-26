@@ -1,26 +1,13 @@
 package hu.bme.photoapp.home
 
-<<<<<<< HEAD
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-=======
-<<<<<<< HEAD
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-=======
->>>>>>> parent of c959613... a
->>>>>>> parent of 300a855... aa
 import android.net.Uri
 import android.util.Log
-import com.koushikdutta.ion.Ion
 import hu.bme.photoapp.categories.Category
 import hu.bme.photoapp.competitions.Competition
 import hu.bme.photoapp.home.ImageAPI.Companion.MULTIPART_FORM_DATA
 import hu.bme.photoapp.home.ImageAPI.Companion.PHOTO_MULTIPART_KEY_IMG
-import hu.bme.photoapp.model.MainActivityAPI
-import hu.bme.photoapp.model.MainActivityViewModel
 import hu.bme.photoapp.photo.CommentContainer
 import okhttp3.MediaType
 import okhttp3.ResponseBody
@@ -197,61 +184,36 @@ class HomeRepository {
         filePath: String,
         title: String,
         description: String,
-        context: Context,
-        onSuccess: (ResponseBody?) -> Unit,
+        onSuccess: (ResponseBody) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> parent of 300a855... aa
 
-        Ion.with(context)
-            .load("POST", MainActivityAPI.BASE_URL + "photos")
-            .setHeader("Authorization", "bearer " + MainActivityViewModel.user.token)
-            .setMultipartParameter("title", title)
-            .setMultipartParameter("description", description)
-            .setMultipartFile("ownImage", "image/jpg", File(filePath))
-            .asJsonObject()
-            .setCallback { e, result ->
-                if(e == null) {
-                    onSuccess(null)
-                }
-                else {
-                    onError(e)
-                }
-<<<<<<< HEAD
-=======
-=======
-        val file = File(fileUri.path.toString())
-        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        val file = File(filePath)
+        val requestFile = file.asRequestBody(MULTIPART_FORM_DATA.toMediaTypeOrNull())
 
         val body = MultipartBody.Part.createFormData(
             PHOTO_MULTIPART_KEY_IMG,
             file.name,
             requestFile
         )
+
         val nameParam = title.toRequestBody(MultipartBody.FORM)
-
-        val filePart: MultipartBody.Part = MultipartBody.Part.createFormData(
-            "ownImage",
-            file.name,
-            file.asRequestBody("image/*".toMediaTypeOrNull())
-        )
-
         val descriptionParam = description.toRequestBody(MultipartBody.FORM)
-        val uploadImageRequest = imageAPI.postPhoto(body, nameParam, descriptionParam)
 
+        val uploadImageRequest = imageAPI.postPhoto(body, nameParam, descriptionParam)
 
         uploadImageRequest.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 onError(t)
                 Log.e("hiba1", t.message.toString())
->>>>>>> parent of c959613... a
->>>>>>> parent of 300a855... aa
             }
 
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                response.body()?.let { onSuccess(it) }
+                Log.e("hiba2", response.body().toString())
+                Log.e("hiba3", nameParam.toString())
+            }
 
-
+        })
     }
 }

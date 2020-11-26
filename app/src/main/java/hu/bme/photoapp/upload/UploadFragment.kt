@@ -20,19 +20,9 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-<<<<<<< HEAD
 import com.bumptech.glide.Glide
-import com.koushikdutta.ion.Ion
-=======
-<<<<<<< HEAD
-import com.bumptech.glide.Glide
-import com.koushikdutta.ion.Ion
-=======
->>>>>>> parent of c959613... a
->>>>>>> parent of 300a855... aa
 import hu.bme.photoapp.R
 import hu.bme.photoapp.home.HomeViewModel
-import hu.bme.photoapp.model.MainActivityViewModel
 import kotlinx.android.synthetic.main.fragment_upload.*
 import okhttp3.ResponseBody
 import java.io.File
@@ -118,20 +108,13 @@ class UploadFragment : Fragment() {
         }
 
         upload_button.setOnClickListener {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> parent of 300a855... aa
-            context?.let { it1 ->
-                homeViewModel.postPhoto(
-                    filePath = currentPhotoPath,
-                    title = name_text_field.text.toString(),
-                    description = description_field.text.toString(),
-                    context = it1,
-                    onSuccess = this::uploadSuccess,
-                    onError = this::uploadError
-                )
-            }
+            homeViewModel.postPhoto(
+                filePath = currentPhotoPath,
+                title = name_text_field.text.toString(),
+                description = description_field.text.toString(),
+                onSuccess = this::uploadSuccess,
+                onError = this::uploadError
+            )
         }
     }
 
@@ -150,23 +133,7 @@ class UploadFragment : Fragment() {
         }
     }
 
-    private fun uploadSuccess(responseBody: ResponseBody?) {
-<<<<<<< HEAD
-=======
-=======
-            homeViewModel.postPhoto(
-                fileUri = IMAGE_URI,
-                title = name_text_field.text.toString(),
-                description = description_field.text.toString(),
-                onSuccess = this::uploadSuccess,
-                onError = this::uploadError
-            )
-        }
-    }
-
     private fun uploadSuccess(responseBody: ResponseBody) {
->>>>>>> parent of c959613... a
->>>>>>> parent of 300a855... aa
         Toast.makeText(activity, "Successfully uploaded!", Toast.LENGTH_SHORT).show()
         val action =
             UploadFragmentDirections.actionUploadFragmentToHomeFragment()

@@ -1,6 +1,5 @@
 package hu.bme.photoapp.home
 
-import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -63,15 +62,13 @@ class HomeViewModel : ViewModel() {
         filePath: String,
         title: String,
         description: String,
-        context: Context,
-        onSuccess: (ResponseBody?) -> Unit,
+        onSuccess: (ResponseBody) -> Unit,
         onError: (Throwable) -> Unit
     ) {
         repository.postPhoto(
             filePath = filePath,
             title = title,
             description = description,
-            context = context,
             onSuccess = onSuccess,
             onError = onError
         )

@@ -4,9 +4,12 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,10 +28,7 @@ import hu.bme.photoapp.R
 import hu.bme.photoapp.home.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_upload.*
 import okhttp3.ResponseBody
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -160,7 +160,23 @@ class UploadFragment : Fragment() {
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             IMAGE_URI = data?.data
             Glide.with(this).load(IMAGE_URI).into(ivPhoto)
+            val bitmap = data?.data?.let { getBitmapFromUri(it) }
+            val stream = ByteArrayOutputStream()
+            bitmap?.compress(Bitmap.CompressFormat.PNG, 90, stream)
+            val image = stream.toByteArray()
+            currentPhotoPath=createImageFile().absolutePath
+            saveImageOnExternalData(currentPhotoPath,image)
+
         }
+    }
+
+    private fun getBitmapFromUri(uri: Uri): Bitmap {
+        val parcelFileDescriptor: ParcelFileDescriptor? =
+            requireContext().contentResolver.openFileDescriptor(uri, "r")
+        val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
+        val image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+        parcelFileDescriptor?.close()
+        return image
     }
 
 

@@ -29,9 +29,8 @@ class CompetitionRecyclerViewAdapter : RecyclerView.Adapter<CompetitionRecyclerV
         holder.competition = competition
         holder.tvCompetitionName.text = competition.name
 
-        //TODO rosszul jelzi ki a dátumot
         val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-        val formatter = SimpleDateFormat("yyyy.dd.MM.dd HH:mm")
+        val formatter = SimpleDateFormat("yyyy.MM.dd. HH:mm")
         val date = formatter.format(parser.parse(competition.deadline))
         holder.tvCompetitionDate.text = date
 

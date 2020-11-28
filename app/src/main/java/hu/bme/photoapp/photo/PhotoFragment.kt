@@ -29,7 +29,7 @@ class PhotoFragment : Fragment() {
 
     private lateinit var commentViewModel: CommentViewModel
 
-    private var image = Image("", "", 0, "", "")
+    private var image = Image("", "", 0, "", "", "")
 
     private val args: PhotoFragmentArgs by navArgs()
 
@@ -90,12 +90,12 @@ class PhotoFragment : Fragment() {
 
     private fun onSuccessGetImage(i: Image) {
         image = i
-        //(activity as AppCompatActivity?)?.supportActionBar?.title = image.title
+        (activity as AppCompatActivity?)?.supportActionBar?.title = image.title
         tvPhotoName.text = image.title
-        //tvCreator.text = image.owner
+        tvCreator.text = image.owner
         tvLikes.text = "Likes: " + image.likes.toString()
         //tvPhotoName.visibility = View.VISIBLE
-        //TODO tvDesc.text = image.desc
+        tvDesc.text = image.description
 
         commentViewModel.getAllComments(image._id)
     }

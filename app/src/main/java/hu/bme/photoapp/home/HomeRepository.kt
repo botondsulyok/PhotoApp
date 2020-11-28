@@ -205,7 +205,6 @@ class HomeRepository {
         uploadImageRequest.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 onError(t)
-                Log.e("hiba1", t.message.toString())
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

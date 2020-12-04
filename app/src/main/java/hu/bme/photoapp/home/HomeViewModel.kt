@@ -1,19 +1,20 @@
 package hu.bme.photoapp.home
 
-import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import hu.bme.photoapp.categories.Category
 import hu.bme.photoapp.competitions.Competition
-import hu.bme.photoapp.upload.UploadFragment
-import kotlinx.android.synthetic.main.fragment_upload.*
 import okhttp3.ResponseBody
 
 class HomeViewModel : ViewModel() {
 
     private val repository: HomeRepository
 
-    val allImages: MutableLiveData<MutableList<Image>> = MutableLiveData<MutableList<Image>>()
+    val allImagesMutableList: MutableLiveData<MutableList<Image>> = MutableLiveData<MutableList<Image>>()
+
+    private var allImages: MutableList<Image> = mutableListOf()
+
+    private val searchFilteredImages: MutableList<Image> = mutableListOf()
 
     init {
         repository = HomeRepository()
@@ -24,7 +25,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun getAllImages() {
-        allImages.value?.clear()
+        allImagesMutableList.value?.clear()
         repository.getAllImages(this::addImages, this::showError)
     }
 
@@ -37,17 +38,18 @@ class HomeViewModel : ViewModel() {
     }
 
     private fun addImages(images: List<Image>) {
-        allImages.postValue(images.toMutableList())
+        allImages = images.toMutableList()
+        allImagesMutableList.value = allImages
     }
 
     private fun filterImagesByCategory(category: Category) {
-        allImages.value?.clear()
-        allImages.postValue(category.photoList.toMutableList())
+        allImages = category.photoList.toMutableList()
+        allImagesMutableList.value = allImages
     }
 
     private fun filterImagesByCompetition(competition: Competition) {
-        allImages.value?.clear()
-        allImages.postValue(competition.photoList.toMutableList())
+        allImages = competition.photoList.toMutableList()
+        allImagesMutableList.value = allImages
     }
 
     fun likeImage(id: String, value: String, onSuccess: () -> Unit) {
@@ -72,6 +74,23 @@ class HomeViewModel : ViewModel() {
             onSuccess = onSuccess,
             onError = onError
         )
+    }
+
+    fun searchFilterPhotoByTitle(
+        title: String
+    ) {
+        searchFilteredImages.clear()
+        for(image in allImages) {
+            if(image.title.contains(title, true)) {
+                searchFilteredImages.add(image)
+            }
+        }
+        allImagesMutableList.value = searchFilteredImages
+    }
+
+    fun removeSearchFilter() {
+        searchFilteredImages.clear()
+        allImagesMutableList.value = allImages
     }
 
 }

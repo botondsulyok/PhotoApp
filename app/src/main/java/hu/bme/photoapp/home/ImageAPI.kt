@@ -19,17 +19,14 @@ interface ImageAPI {
         const val PHOTO_MULTIPART_KEY_IMG = "ownImage"
     }
 
-
     @GET("photos")
     fun getImages(@Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token): Call<List<Image>>
-
 
     @GET("photos/{id}")
     fun getImage(
         @Path("id") id: String,
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<Image>
-
 
     @FormUrlEncoded
     @PATCH("photos/{id}")
@@ -39,15 +36,6 @@ interface ImageAPI {
         @Field("value") value: String,
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<ResponseBody>
-
-    /*
-     //TODO nem jó
-    @GET("categories/{categoryID}/photoList")
-    fun getImagesByCategory(
-        @Path("categoryID") categoryID: String,
-        @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
-    ): Call<List<Image>>
-     */
 
     @GET("categories/{categoryID}")
     fun getCategory(
@@ -60,8 +48,6 @@ interface ImageAPI {
         @Path("competitionID") competitionID: String,
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<Competition>
-
-
 
     @Multipart
     @POST("photos")

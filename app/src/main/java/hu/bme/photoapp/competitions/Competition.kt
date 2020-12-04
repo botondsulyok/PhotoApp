@@ -7,7 +7,6 @@ import hu.bme.photoapp.home.Image
 class Competition(
     val _id: String = "",
     val photoList: List<Image> = listOf(),
-    /*val creator: String,*/
     val name: String = "",
     val deadline: String = "",
     val currentVisibility: Boolean = true

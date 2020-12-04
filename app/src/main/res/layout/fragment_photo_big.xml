@@ -28,8 +28,8 @@
 
     <ImageView
         android:id="@+id/ivPhotoBig"
-        android:layout_width="800dp"
-        android:layout_height="800dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         tools:src="@tools:sample/avatars" />
 
 </com.otaliastudios.zoom.ZoomLayout>

@@ -1,4 +1,4 @@
-package hu.bme.photoapp
+package hu.bme.photoapp.photo
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.bumptech.glide.Glide
+import hu.bme.photoapp.R
 import hu.bme.photoapp.home.ImageAPI
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.android.synthetic.main.fragment_photo_big.*
 
 

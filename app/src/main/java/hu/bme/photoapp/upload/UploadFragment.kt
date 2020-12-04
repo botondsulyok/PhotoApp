@@ -56,7 +56,6 @@ class UploadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        (activity as AppCompatActivity?)?.supportActionBar?.title = "Upload Photo"
 
         make_photo_button.setOnClickListener {
             when (ContextCompat.checkSelfPermission(

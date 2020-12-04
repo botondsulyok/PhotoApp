@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.row_image.view.*
 
 class HomeRecyclerViewAdapter(private val context: Context) : RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>() {
 
+    //TODO szervezzük ki a stringeket a strings.xml-be!
+
     private val imageList = mutableListOf<Image>()
 
     var itemClickListener: ImageItemClickListener? = null
@@ -28,7 +30,7 @@ class HomeRecyclerViewAdapter(private val context: Context) : RecyclerView.Adapt
         holder.image = image
 
         var imageUrl = image.ownImage
-        //TODO
+
         imageUrl = imageUrl.replace("\\", "/")
         Glide.with(context).load(ImageAPI.BASE_URL+imageUrl).into(holder.ivImage)
 

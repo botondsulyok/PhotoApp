@@ -89,15 +89,16 @@ class PhotoFragment : Fragment() {
     }
 
     private fun onSuccessGetImage(i: Image) {
-        image = i
-        (activity as AppCompatActivity?)?.supportActionBar?.title = image.title
-        tvPhotoName.text = image.title
-        tvCreator.text = image.owner
-        tvLikes.text = "Likes: " + image.likes.toString()
-        //tvPhotoName.visibility = View.VISIBLE
-        tvDesc.text = image.description
+        if(nestedScrollViewFragmentPhoto != null) {
+            image = i
+            (activity as AppCompatActivity?)?.supportActionBar?.title = image.title
+            tvPhotoName.text = image.title
+            tvCreator.text = image.owner
+            tvLikes.text = "Likes: " + image.likes.toString()
+            tvDesc.text = image.description
 
-        commentViewModel.getAllComments(image._id)
+            commentViewModel.getAllComments(image._id)
+        }
     }
 
     private fun onSuccessLike() {

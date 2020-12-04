@@ -3,6 +3,8 @@ package hu.bme.photoapp.home
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -49,7 +51,7 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
         setupRecyclerView()
 
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        homeViewModel.allImages.observe(viewLifecycleOwner) { images ->
+        homeViewModel.allImagesMutableList.observe(viewLifecycleOwner) { images ->
             recyclerViewAdapter.addAll(images)
         }
 
@@ -75,10 +77,30 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_toolbar, menu)
+
+        inflater.inflate(R.menu.menu_toolbar, menu)
+
+        val mSearch = menu.findItem(R.id.action_search)
+        val mSearchView = mSearch.actionView as SearchView
+        mSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                homeViewModel.searchFilterPhotoByTitle(query.toString())
+                return true
+        }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                homeViewModel.searchFilterPhotoByTitle(newText.toString())
+                return true
+            }
+        })
+        mSearchView.setOnCloseListener {
+            homeViewModel.removeSearchFilter()
+            mSearchView.onActionViewCollapsed()
+            mSearchView.clearFocus()
+            rvImageList.requestFocus()
+            return@setOnCloseListener true
+        }
     }
 
-    //TODO
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return super.onOptionsItemSelected(item)
     }

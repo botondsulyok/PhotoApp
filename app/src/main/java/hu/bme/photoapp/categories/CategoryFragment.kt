@@ -31,7 +31,7 @@ class CategoryFragment : Fragment(), CategoryRecyclerViewAdapter.CategoryItemCli
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity?)?.supportActionBar?.title = "Categories"
+        (activity as AppCompatActivity?)?.supportActionBar?.title = getString(R.string.title_categories)
 
         setupRecyclerView()
 

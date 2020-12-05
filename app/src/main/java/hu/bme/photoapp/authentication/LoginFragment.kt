@@ -34,31 +34,31 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        etLoginEmail.requestFocus()
+
         btnLoginLogin.setOnClickListener {
-            view?.let {
-                hideKeyboard()
-                var valid = true
-                if (isEmailValid(etLoginEmail.text.toString()) != true) {
-                    etLoginEmail.error = "Invalid email adress!"
-                    valid = false
-                }
+            hideKeyboard()
+            var valid = true
+            if (!isEmailValid(etLoginEmail.text.toString())) {
+                etLoginEmail.error = getString(R.string.error_invalidemail)
+                valid = false
+            }
 
-                if (TextUtils.isEmpty(etLoginPassword.text)) {
-                    etLoginPassword.error = "Cannot be empty!"
-                    valid = false
-                }
+            if (TextUtils.isEmpty(etLoginPassword.text)) {
+                etLoginPassword.error = getString(R.string.error_empty)
+                valid = false
+            }
 
-                if (valid) {
-                    val registerUser = RegisterUser(
-                        etLoginEmail.text.toString(),
-                        etLoginPassword.text.toString()
-                    )
-                    val mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-                    mainActivityViewModel.loginUser(
-                        registerUser,
-                        this::onSuccess,
-                        this::showError)
-                }
+            if (valid) {
+                val registerUser = RegisterUser(
+                    etLoginEmail.text.toString(),
+                    etLoginPassword.text.toString()
+                )
+                val mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+                mainActivityViewModel.loginUser(
+                    registerUser,
+                    this::onSuccess,
+                    this::showError)
             }
         }
     }
@@ -68,7 +68,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun onSuccess(user: User) {
-        val mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        ViewModelProvider(this).get(MainActivityViewModel::class.java)
         MainActivityViewModel.user = user
         val navigationView = activity?.findViewById<View>(R.id.nav_view) as NavigationView
         val headerView = navigationView.getHeaderView(0)
@@ -76,7 +76,7 @@ class LoginFragment : Fragment() {
         val action =
             LoginFragmentDirections.actionLoginSuccessful()
         findNavController().navigate(action)
-        Toast.makeText(activity, "Success", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, getString(R.string.txt_success), Toast.LENGTH_SHORT).show()
     }
 
     private fun showError(t: Throwable) {

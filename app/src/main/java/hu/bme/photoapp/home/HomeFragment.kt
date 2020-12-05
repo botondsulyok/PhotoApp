@@ -38,11 +38,6 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fab.setOnClickListener{
-            val action =
-                HomeFragmentDirections.actionPlusButtonClicked()
-            findNavController().navigate(action)
-        }
         activity?.toolbar_main?.visibility = View.VISIBLE
         activity?.drawer_layout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
@@ -58,12 +53,27 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
         when(arguments?.getString("type")) {
             CATEGORY_IMAGES -> {
                 homeViewModel.getImagesByCategory(arguments?.getString("id") ?: "")
+                fab.setOnClickListener{
+                    val action =
+                        HomeFragmentDirections.actionPlusButtonClicked(CATEGORY_IMAGES,arguments?.getString("id") ?: "")
+                    findNavController().navigate(action)
+                }
             }
             COMPETITION_IMAGES -> {
                 homeViewModel.getImagesByCompetition(arguments?.getString("id") ?: "")
+                fab.setOnClickListener{
+                    val action =
+                        HomeFragmentDirections.actionPlusButtonClicked(COMPETITION_IMAGES,arguments?.getString("id") ?: "")
+                    findNavController().navigate(action)
+                }
             }
             else -> {
                 homeViewModel.getAllImages()
+                fab.setOnClickListener{
+                    val action =
+                        HomeFragmentDirections.actionPlusButtonClicked()
+                    findNavController().navigate(action)
+                }
             }
         }
 

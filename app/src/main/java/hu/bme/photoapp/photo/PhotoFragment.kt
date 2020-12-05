@@ -29,7 +29,7 @@ class PhotoFragment : Fragment() {
 
     private lateinit var commentViewModel: CommentViewModel
 
-    private var image = Image("", "", 0, "", "", "")
+    private var image = Image()
 
     private val args: PhotoFragmentArgs by navArgs()
 
@@ -93,7 +93,7 @@ class PhotoFragment : Fragment() {
             image = i
             (activity as AppCompatActivity?)?.supportActionBar?.title = image.title
             tvPhotoName.text = image.title
-            tvCreator.text = image.owner
+            tvCreator.text = image.ownerID.email
             tvLikes.text = "Likes: " + image.likes.toString()
             tvDesc.text = image.description
 

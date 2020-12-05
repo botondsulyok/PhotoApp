@@ -11,23 +11,23 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import hu.bme.photoapp.R
+import hu.bme.photoapp.home.HomeFragment
 import hu.bme.photoapp.home.HomeViewModel
+import hu.bme.photoapp.home.Image
 import kotlinx.android.synthetic.main.fragment_upload.*
-import okhttp3.ResponseBody
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,6 +36,7 @@ import java.util.*
 class UploadFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
+    private val args: UploadFragmentArgs by navArgs()
 
 
     companion object {
@@ -132,7 +133,22 @@ class UploadFragment : Fragment() {
         }
     }
 
-    private fun uploadSuccess(responseBody: ResponseBody) {
+    private fun uploadSuccess(image: Image) {
+        //feltöltötte a fotót, ezután kategóriához kell rendelni
+        if(args.id == "") {
+            uploadDone()
+        }
+        else {
+            when(args.type) {
+                HomeFragment.CATEGORY_IMAGES -> {
+                    homeViewModel.addImageToCategory(args.id, image._id, this::uploadDone, this::uploadError)
+                }
+            }
+        }
+
+    }
+
+    private fun uploadDone() {
         Toast.makeText(activity, "Successfully uploaded!", Toast.LENGTH_SHORT).show()
         val action =
             UploadFragmentDirections.actionUploadFragmentToHomeFragment()

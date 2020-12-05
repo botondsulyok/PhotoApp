@@ -1,24 +1,18 @@
 package hu.bme.photoapp
 
 import android.os.Bundle
-import android.transition.Explode
-import android.transition.Slide
 import android.view.MenuItem
 import android.view.View
-import android.view.Window
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.google.android.material.navigation.NavigationView
 import hu.bme.photoapp.model.MainActivityViewModel
 import hu.bme.photoapp.model.User
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {

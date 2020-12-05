@@ -64,7 +64,7 @@ class HomeViewModel : ViewModel() {
         filePath: String,
         title: String,
         description: String,
-        onSuccess: (ResponseBody) -> Unit,
+        onSuccess: (Image) -> Unit,
         onError: (Throwable) -> Unit
     ) {
         repository.postPhoto(
@@ -74,6 +74,13 @@ class HomeViewModel : ViewModel() {
             onSuccess = onSuccess,
             onError = onError
         )
+    }
+
+    fun addImageToCategory(categoryId: String,
+                           imageId: String,
+                           onSuccess: () -> Unit,
+                           onError: (Throwable) -> Unit){
+        repository.addImageToCategory(categoryId, imageId, onSuccess, onError)
     }
 
     fun searchFilterPhotoByTitle(

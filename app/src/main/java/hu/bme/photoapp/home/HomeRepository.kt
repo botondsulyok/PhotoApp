@@ -1,15 +1,12 @@
 package hu.bme.photoapp.home
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
-import android.util.Log
 import hu.bme.photoapp.categories.Category
 import hu.bme.photoapp.competitions.Competition
-import hu.bme.photoapp.home.ImageAPI.Companion.MULTIPART_FORM_DATA
-import hu.bme.photoapp.home.ImageAPI.Companion.PHOTO_MULTIPART_KEY_IMG
 import hu.bme.photoapp.photo.CommentContainer
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,12 +14,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import java.io.ByteArrayOutputStream
 
 
 class HomeRepository {
@@ -139,6 +130,25 @@ class HomeRepository {
         })
     }
 
+    fun addImageToCategory( categoryId: String,
+                            imageId: String,
+                            onSuccess: () -> Unit,
+                            onError: (Throwable) -> Unit
+    ) {
+        val addImageToCategoryRequest = imageAPI.addImageToCategory(categoryId = categoryId, value = imageId)
+
+        addImageToCategoryRequest.enqueue(object : Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                onError(t)
+            }
+
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                onSuccess()
+            }
+
+        })
+    }
+
     fun getAllComments(
         id: String,
         onSuccess: (CommentContainer) -> Unit,
@@ -184,7 +194,7 @@ class HomeRepository {
         filePath: String,
         title: String,
         description: String,
-        onSuccess: (ResponseBody) -> Unit,
+        onSuccess: (Image) -> Unit,
         onError: (Throwable) -> Unit
     ) {
 
@@ -202,12 +212,12 @@ class HomeRepository {
         val uploadImageRequest = imageAPI.postPhoto(filePart, nameParam, descriptionParam)
 
 
-        uploadImageRequest.enqueue(object : Callback<ResponseBody> {
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+        uploadImageRequest.enqueue(object : Callback<Image> {
+            override fun onFailure(call: Call<Image>, t: Throwable) {
                 onError(t)
             }
 
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+            override fun onResponse(call: Call<Image>, response: Response<Image>) {
                 response.body()?.let { onSuccess(it) }
             }
         })

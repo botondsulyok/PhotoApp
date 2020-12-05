@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="hu.bme.photoapp.authentication.WelcomeFragment"
-        android:label="fragment_welcome"
+        android:label="@string/title_welcome"
         tools:layout="@layout/fragment_welcome" >
         <action
             android:id="@+id/action_login_chosen"
@@ -28,7 +28,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="hu.bme.photoapp.authentication.LoginFragment"
-        android:label="Login"
+        android:label="@string/title_login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_login_successful"
@@ -43,7 +43,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="hu.bme.photoapp.authentication.RegisterFragment"
-        android:label="Register"
+        android:label="@string/title_register"
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_register_successful"
@@ -58,7 +58,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="hu.bme.photoapp.home.HomeFragment"
-        android:label="Home"
+        android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_view_photo"
@@ -84,7 +84,7 @@
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="hu.bme.photoapp.categories.CategoryFragment"
-        android:label="Categories"
+        android:label="@string/title_categories"
         tools:layout="@layout/fragment_categories" >
         <action
             android:id="@+id/action_category_selected"
@@ -112,7 +112,7 @@
     <fragment
         android:id="@+id/competitionFragment"
         android:name="hu.bme.photoapp.competitions.CompetitionFragment"
-        android:label="Competitions" >
+        android:label="@string/title_competitions" >
         <action
             android:id="@+id/action_competition_selected"
             app:destination="@id/homeFragment"
@@ -127,7 +127,7 @@
     <fragment
         android:id="@+id/photoFragment"
         android:name="hu.bme.photoapp.photo.PhotoFragment"
-        android:label="Photo"
+        android:label="@string/title_photo"
         tools:layout="@layout/fragment_photo" >
         <argument
             android:name="imageUrl"
@@ -144,7 +144,7 @@
     <fragment
         android:id="@+id/uploadFragment"
         android:name="hu.bme.photoapp.upload.UploadFragment"
-        android:label="Upload"
+        android:label="@string/title_upload"
         tools:layout="@layout/fragment_upload" >
         <action
             android:id="@+id/action_uploadFragment_to_homeFragment"
@@ -159,7 +159,7 @@
     <fragment
         android:id="@+id/photoFragmentBig"
         android:name="hu.bme.photoapp.photo.PhotoFragmentBig"
-        android:label="Photo"
+        android:label="@string/title_photo"
         tools:layout="@layout/fragment_photo_big" >
         <argument
             android:name="imageUrl"

@@ -45,7 +45,7 @@ class PhotoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity?)?.supportActionBar?.title = "Photo"
+        (activity as AppCompatActivity?)?.supportActionBar?.title = getString(R.string.title_photo)
         (activity as AppCompatActivity?)?.supportActionBar?.show()
 
         val imageUrl: String
@@ -66,7 +66,7 @@ class PhotoFragment : Fragment() {
         commentViewModel = ViewModelProvider(this).get(CommentViewModel::class.java)
         commentViewModel.allComments.observe(viewLifecycleOwner) { commentContainer ->
             recyclerViewAdapter.addAll(commentContainer[0].comment.toList())
-            tvComments.text = "Comments: " + recyclerViewAdapter.itemCount
+            tvComments.text = getString(R.string.tv_commentsnumber, recyclerViewAdapter.itemCount)
         }
 
         btnComment.setOnClickListener {
@@ -94,7 +94,7 @@ class PhotoFragment : Fragment() {
             (activity as AppCompatActivity?)?.supportActionBar?.title = image.title
             tvPhotoName.text = image.title
             tvCreator.text = image.ownerID.email
-            tvLikes.text = "Likes: " + image.likes.toString()
+            tvLikes.text = getString(R.string.tv_likesnumber, image.likes)
             tvDesc.text = image.description
 
             commentViewModel.getAllComments(image._id)
@@ -102,8 +102,8 @@ class PhotoFragment : Fragment() {
     }
 
     private fun onSuccessLike() {
-        view?.let { Snackbar.make(it, "Liked", Snackbar.LENGTH_SHORT)
-            .setAction("Close") {
+        view?.let { Snackbar.make(it, getString(R.string.txt_liked), Snackbar.LENGTH_SHORT)
+            .setAction(getString(R.string.btn_close)) {
 
             }
             .show() }
@@ -112,8 +112,8 @@ class PhotoFragment : Fragment() {
     }
 
     private fun onSuccessComment() {
-        view?.let { Snackbar.make(it, "Done", Snackbar.LENGTH_SHORT)
-            .setAction("Close") {
+        view?.let { Snackbar.make(it, getString(R.string.txt_done), Snackbar.LENGTH_SHORT)
+            .setAction(getString(R.string.btn_close)) {
 
             }
             .show() }

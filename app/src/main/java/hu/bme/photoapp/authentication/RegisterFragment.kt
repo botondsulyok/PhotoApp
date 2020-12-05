@@ -31,15 +31,17 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        etRegisterEmail.requestFocus()
+
         btnRegisterRegister.setOnClickListener {
             var valid = true
             if (!isEmailValid(etRegisterEmail.text.toString())) {
-                etRegisterEmail.error = "Invalid email adress!"
+                etRegisterEmail.error = getString(R.string.error_invalidemail)
                 valid = false
             }
 
             if(TextUtils.isEmpty(etRegisterPassword.text)) {
-                etRegisterPassword.error = "Cannot be empty!"
+                etRegisterPassword.error = getString(R.string.error_empty)
                 valid = false
             }
             if(valid) {
@@ -64,7 +66,7 @@ class RegisterFragment : Fragment() {
         val action =
             RegisterFragmentDirections.actionRegisterSuccessful()
         findNavController().navigate(action)
-        Toast.makeText(activity, "Registered, please login", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, getString(R.string.txt_registeredplslogin), Toast.LENGTH_LONG).show()
     }
 
     private fun showError(t: Throwable) {

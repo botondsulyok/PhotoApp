@@ -35,7 +35,7 @@ class CompetitionFragment : Fragment(), CompetitionRecyclerViewAdapter.Competiti
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity?)?.supportActionBar?.title = "Competitions"
+        (activity as AppCompatActivity?)?.supportActionBar?.title = getString(R.string.title_competitions)
 
         setupRecyclerView()
 
@@ -52,20 +52,20 @@ class CompetitionFragment : Fragment(), CompetitionRecyclerViewAdapter.Competiti
     }
 
     override fun onItemClick(competition: Competition) {
-        val action =
-            CompetitionFragmentDirections.actionCompetitionSelected(competition._id, HomeFragment.COMPETITION_IMAGES, competition.name)
-        findNavController().navigate(action)
-    }
-
-    override fun onItemClickDenied(alert: String) {
-        context?.let {
-            AlertDialog.Builder(it)
-                .setTitle("Something went wrong")
-                .setMessage(alert)
-                .setNeutralButton("OK", null)
-                .show()
+        if(!competition.currentVisibility) {
+            context?.let {
+                AlertDialog.Builder(it)
+                    .setTitle(getString(R.string.txt_somethingwentwrong))
+                    .setMessage(getString(R.string.error_vipcompetition))
+                    .setNeutralButton(getString(R.string.btn_ok), null)
+                    .show()
+            }
+        }
+        else {
+            val action =
+                CompetitionFragmentDirections.actionCompetitionSelected(competition._id, HomeFragment.COMPETITION_IMAGES, competition.name)
+            findNavController().navigate(action)
         }
     }
-
 
 }

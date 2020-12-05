@@ -36,9 +36,6 @@ class CompetitionRecyclerViewAdapter : RecyclerView.Adapter<CompetitionRecyclerV
 
         if(!competition.currentVisibility) {
             holder.ivVip.visibility = View.VISIBLE
-            holder.itemView.setOnClickListener {
-                itemClickListener?.onItemClickDenied("This is a VIP competition!")
-            }
         }
     }
 
@@ -65,7 +62,6 @@ class CompetitionRecyclerViewAdapter : RecyclerView.Adapter<CompetitionRecyclerV
 
     interface CompetitionItemClickListener {
         fun onItemClick(competition: Competition)
-        fun onItemClickDenied(alert: String)
     }
 
 }

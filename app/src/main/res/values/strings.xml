@@ -110,4 +110,26 @@
     <string name="make_photo">Take Photo</string>
     <string name="description">Description</string>
     <string name="filename">Name:</string>
+    <string name="error_invalidemail">Invalid email address!</string>
+    <string name="error_empty">Cannot be empty!</string>
+    <string name="txt_success">Success</string>
+    <string name="txt_registeredplslogin">Registered, please login</string>
+    <string name="txt_somethingwentwrong">Something went wrong</string>
+    <string name="btn_ok">OK</string>
+    <string name="error_vipcompetition">This is a VIP competition!</string>
+    <string name="title_photo">Photo</string>
+    <string name="txt_liked">Liked</string>
+    <string name="btn_close">Close</string>
+    <string name="txt_done">Done</string>
+    <string name="tv_commentsnumber">\"Comments: %1$d\"</string>
+    <string name="tv_likesnumber">\"Likes: %1$d\"</string>
+    <string name="title_welcome">Welcome</string>
+    <string name="title_login">Login</string>
+    <string name="title_register">Register</string>
+    <string name="title_home">Home</string>
+    <string name="title_categories">Categories</string>
+    <string name="title_competitions">Competitions</string>
+    <string name="title_upload">Upload</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_search">search</string>
 </resources>

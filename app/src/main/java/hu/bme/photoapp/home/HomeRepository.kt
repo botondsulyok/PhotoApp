@@ -149,6 +149,25 @@ class HomeRepository {
         })
     }
 
+    fun addImageToCompetition( competitionId: String,
+                            imageId: String,
+                            onSuccess: () -> Unit,
+                            onError: (Throwable) -> Unit
+    ) {
+        val addImageToCompetitionRequest = imageAPI.addImageToCompetition(competitionId = competitionId, value = imageId)
+
+        addImageToCompetitionRequest.enqueue(object : Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                onError(t)
+            }
+
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                onSuccess()
+            }
+
+        })
+    }
+
     fun getAllComments(
         id: String,
         onSuccess: (CommentContainer) -> Unit,

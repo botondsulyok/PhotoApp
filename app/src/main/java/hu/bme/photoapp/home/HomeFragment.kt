@@ -71,7 +71,7 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ImageItemClickListener 
                 homeViewModel.getAllImages()
                 fab.setOnClickListener{
                     val action =
-                        HomeFragmentDirections.actionPlusButtonClicked()
+                        HomeFragmentDirections.actionPlusButtonClicked("", "")
                     findNavController().navigate(action)
                 }
             }

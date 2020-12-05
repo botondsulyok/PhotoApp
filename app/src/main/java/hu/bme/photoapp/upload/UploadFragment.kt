@@ -40,9 +40,11 @@ class UploadFragment : Fragment() {
 
 
     companion object {
-        private const val PERMISSION_REQUEST_CODE = 1000
-        private const val REQUEST_IMAGE_CAPTURE = 1001
-        private const val IMAGE_PICK_CODE = 1002
+        private const val REQUEST_IMAGE_CAPTURE = 1000
+        private const val IMAGE_CAPTURE_PERMISSION_CODE = 1001
+        private const val  REQUEST_IMAGE_PICK = 1002
+        private const val IMAGE_PICK_PERMISSION_CODE = 1003
+
         private var IMAGE_URI: Uri? = null
 
     }
@@ -59,63 +61,47 @@ class UploadFragment : Fragment() {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         make_photo_button.setOnClickListener {
-            when (ContextCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.CAMERA
-            )) {
-                PackageManager.PERMISSION_DENIED -> requestNeededPermissionCamera()
-            }
-
-            when (ContextCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )) {
-                PackageManager.PERMISSION_DENIED -> requestNeededPermissionWriteStorage()
-            }
-
-            when (ContextCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )) {
-                PackageManager.PERMISSION_DENIED -> requestNeededPermissionReadStorage()
-            }
-
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            val photoFile: File = createImageFile()
-            IMAGE_URI = FileProvider.getUriForFile(
-                requireActivity(),
-                "hu.bme.aut.android.fileprovider",
-                photoFile
-            )
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_URI)
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            requestNeededPermissionCamera()
         }
 
         upload_photo.setOnClickListener {
-            when (ContextCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )) {
-                PackageManager.PERMISSION_DENIED -> requestNeededPermissionReadStorage()
-            }
-            when (ContextCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )) {
-                PackageManager.PERMISSION_DENIED -> requestNeededPermissionWriteStorage()
-            }
-            pickImageFromGallery()
+            requestNeededPermissionReadStorage()
         }
 
+
         upload_button.setOnClickListener {
+            var valid = true
+            if (name_text_field.text.isEmpty()) {
+                name_text_field.error = "Cannot be empty!"
+                valid = false
+            }
+            if (description_field.text.isEmpty()) {
+                description_field.error = "Cannot be empty!"
+                valid = false
+            }
+
+            if (valid) {
                 homeViewModel.postPhoto(
-                    filePath =currentPhotoPath,
+                    filePath = currentPhotoPath,
                     title = name_text_field.text.toString(),
                     description = description_field.text.toString(),
                     onSuccess = this::uploadSuccess,
                     onError = this::uploadError
                 )
+            }
         }
+    }
+
+    fun startCamera() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val photoFile: File = createImageFile()
+        IMAGE_URI = FileProvider.getUriForFile(
+            requireActivity(),
+            "hu.bme.aut.android.fileprovider",
+            photoFile
+        )
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_URI)
+        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
     }
 
     lateinit var currentPhotoPath: String
@@ -143,6 +129,9 @@ class UploadFragment : Fragment() {
                 HomeFragment.CATEGORY_IMAGES -> {
                     homeViewModel.addImageToCategory(args.id, image._id, this::uploadDone, this::uploadError)
                 }
+                HomeFragment.COMPETITION_IMAGES -> {
+                    homeViewModel.addImageToCompetition(args.id, image._id, this::uploadDone, this::uploadError)
+                }
             }
         }
 
@@ -150,20 +139,18 @@ class UploadFragment : Fragment() {
 
     private fun uploadDone() {
         Toast.makeText(activity, "Successfully uploaded!", Toast.LENGTH_SHORT).show()
-        val action =
-            UploadFragmentDirections.actionUploadFragmentToHomeFragment()
-        findNavController().navigate(action)
+        findNavController().popBackStack()
     }
 
     private fun uploadError(e: Throwable) {
-        Toast.makeText(activity, "Error during uploading photo!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, e.message, Toast.LENGTH_SHORT).show()
         e.printStackTrace()
     }
 
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_PICK_CODE)
+        startActivityForResult(intent, REQUEST_IMAGE_PICK)
     }
 
 
@@ -172,7 +159,7 @@ class UploadFragment : Fragment() {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Glide.with(this).load(IMAGE_URI).into(ivPhoto)
         }
-        if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_PICK) {
             IMAGE_URI = data?.data
             Glide.with(this).load(IMAGE_URI).into(ivPhoto)
             val bitmap = data?.data?.let { getBitmapFromUri(it) }
@@ -212,12 +199,13 @@ class UploadFragment : Fragment() {
                     "I need it for camera", Toast.LENGTH_SHORT
                 ).show()
             }
-            ActivityCompat.requestPermissions(
-                requireActivity(),
+            requestPermissions(
                 arrayOf(Manifest.permission.CAMERA),
-                PERMISSION_REQUEST_CODE
+                IMAGE_CAPTURE_PERMISSION_CODE
             )
         }
+        else
+            startCamera()
     }
 
     override fun onRequestPermissionsResult(
@@ -225,7 +213,7 @@ class UploadFragment : Fragment() {
         permissions: Array<String>, grantResults: IntArray
     ) {
         when (requestCode) {
-            PERMISSION_REQUEST_CODE -> {
+            IMAGE_CAPTURE_PERMISSION_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED
                 ) {
@@ -233,6 +221,7 @@ class UploadFragment : Fragment() {
                         requireActivity(), "permission granted",
                         Toast.LENGTH_SHORT
                     ).show()
+                    startCamera()
                 } else {
                     Toast.makeText(
                         requireActivity(), "permission NOT granted",
@@ -240,10 +229,16 @@ class UploadFragment : Fragment() {
                     ).show()
                 }
             }
+            IMAGE_PICK_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED) {
+                        pickImageFromGallery()
+                    }
+            }
         }
     }
 
-    private fun requestNeededPermissionWriteStorage() {
+    /*private fun requestNeededPermissionWriteStorage() {
         if (ContextCompat.checkSelfPermission(
                 requireActivity(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -263,10 +258,10 @@ class UploadFragment : Fragment() {
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                PERMISSION_REQUEST_CODE
+                IMAGE_WRITE_CODE
             )
         }
-    }
+    }*/
 
     private fun requestNeededPermissionReadStorage() {
         if (ContextCompat.checkSelfPermission(
@@ -282,15 +277,16 @@ class UploadFragment : Fragment() {
             ) {
                 Toast.makeText(
                     requireActivity(),
-                    "I need it for camera", Toast.LENGTH_SHORT
+                    "I need it for upload", Toast.LENGTH_SHORT
                 ).show()
             }
-            ActivityCompat.requestPermissions(
-                requireActivity(),
+            requestPermissions(
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                PERMISSION_REQUEST_CODE
+                IMAGE_PICK_PERMISSION_CODE
             )
         }
+        else
+            pickImageFromGallery()
     }
 
     private fun saveImageOnExternalData(filePath: String?, fileData: ByteArray?): Boolean {

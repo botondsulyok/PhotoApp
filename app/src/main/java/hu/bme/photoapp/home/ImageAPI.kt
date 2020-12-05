@@ -82,6 +82,15 @@ interface ImageAPI {
         @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
     ): Call<ResponseBody>
 
+    @FormUrlEncoded
+    @PATCH("competitions/{competitionId}")
+    fun addImageToCompetition(
+        @Path("competitionId") competitionId: String,
+        @Field("propName") propName: String = "photoList",
+        @Field("value") value: String,
+        @Header("Authorization") token: String = "bearer " + MainActivityViewModel.user.token
+    ): Call<ResponseBody>
+
 
 
 }

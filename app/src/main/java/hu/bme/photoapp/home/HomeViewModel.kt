@@ -83,6 +83,13 @@ class HomeViewModel : ViewModel() {
         repository.addImageToCategory(categoryId, imageId, onSuccess, onError)
     }
 
+    fun addImageToCompetition(competitionId: String,
+                           imageId: String,
+                           onSuccess: () -> Unit,
+                           onError: (Throwable) -> Unit){
+        repository.addImageToCompetition(competitionId, imageId, onSuccess, onError)
+    }
+
     fun searchFilterPhotoByTitle(
         title: String
     ) {

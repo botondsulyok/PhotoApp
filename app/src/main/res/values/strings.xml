@@ -65,5 +65,10 @@
     <string name="image_name">ImageName</string>
     <string name="search">Search</string>
     <string name="menu_categories">Categories</string>
+    <string name="txt_successfullyuploaded">Successfully uploaded!</string>
+    <string name="txt_needitforcamera">I need it for camera</string>
+    <string name="txt_permissiongranted">permission granted</string>
+    <string name="txt_permissionnotgranted">permission NOT granted</string>
+    <string name="txt_needitforupload">I need it for upload</string>
 
 </resources>

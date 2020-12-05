@@ -68,11 +68,11 @@ class UploadFragment : Fragment() {
         upload_button.setOnClickListener {
             var valid = true
             if (name_text_field.text.isEmpty()) {
-                name_text_field.error = "Cannot be empty!"
+                name_text_field.error = getString(R.string.error_empty)
                 valid = false
             }
             if (description_field.text.isEmpty()) {
-                description_field.error = "Cannot be empty!"
+                description_field.error = getString(R.string.error_empty)
                 valid = false
             }
 
@@ -93,7 +93,7 @@ class UploadFragment : Fragment() {
         val photoFile: File = createImageFile()
         IMAGE_URI = FileProvider.getUriForFile(
             requireActivity(),
-            "hu.bme.aut.android.fileprovider",
+            "hu.bme.aut.android.photoappfileprovider",
             photoFile
         )
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_URI)
@@ -132,7 +132,7 @@ class UploadFragment : Fragment() {
     }
 
     private fun uploadDone() {
-        Toast.makeText(activity, "Successfully uploaded!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, getString(R.string.txt_successfullyuploaded), Toast.LENGTH_SHORT).show()
         findNavController().popBackStack()
     }
 
@@ -185,7 +185,7 @@ class UploadFragment : Fragment() {
             ) {
                 Toast.makeText(
                     requireActivity(),
-                    "I need it for camera", Toast.LENGTH_SHORT
+                    getString(R.string.txt_needitforcamera), Toast.LENGTH_SHORT
                 ).show()
             }
             requestPermissions(
@@ -207,13 +207,13 @@ class UploadFragment : Fragment() {
                     PackageManager.PERMISSION_GRANTED
                 ) {
                     Toast.makeText(
-                        requireActivity(), "permission granted",
+                        requireActivity(), getString(R.string.txt_permissiongranted),
                         Toast.LENGTH_SHORT
                     ).show()
                     startCamera()
                 } else {
                     Toast.makeText(
-                        requireActivity(), "permission NOT granted",
+                        requireActivity(), getString(R.string.txt_permissionnotgranted),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -241,7 +241,7 @@ class UploadFragment : Fragment() {
             ) {
                 Toast.makeText(
                     requireActivity(),
-                    "I need it for upload", Toast.LENGTH_SHORT
+                    getString(R.string.txt_needitforupload), Toast.LENGTH_SHORT
                 ).show()
             }
             requestPermissions(

@@ -38,15 +38,12 @@ class UploadFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private val args: UploadFragmentArgs by navArgs()
 
-
     companion object {
         private const val REQUEST_IMAGE_CAPTURE = 1000
         private const val IMAGE_CAPTURE_PERMISSION_CODE = 1001
         private const val  REQUEST_IMAGE_PICK = 1002
         private const val IMAGE_PICK_PERMISSION_CODE = 1003
-
         private var IMAGE_URI: Uri? = null
-
     }
 
     override fun onCreateView(
@@ -67,7 +64,6 @@ class UploadFragment : Fragment() {
         upload_photo.setOnClickListener {
             requestNeededPermissionReadStorage()
         }
-
 
         upload_button.setOnClickListener {
             var valid = true
@@ -92,7 +88,7 @@ class UploadFragment : Fragment() {
         }
     }
 
-    fun startCamera() {
+    private fun startCamera() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val photoFile: File = createImageFile()
         IMAGE_URI = FileProvider.getUriForFile(
@@ -106,15 +102,13 @@ class UploadFragment : Fragment() {
 
     lateinit var currentPhotoPath: String
     private fun createImageFile(): File {
-        // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File? = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            storageDir
         ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
             currentPhotoPath = absolutePath
         }
     }
@@ -153,7 +147,6 @@ class UploadFragment : Fragment() {
         startActivityForResult(intent, REQUEST_IMAGE_PICK)
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
@@ -168,7 +161,6 @@ class UploadFragment : Fragment() {
             val image = stream.toByteArray()
             currentPhotoPath=createImageFile().absolutePath
             saveImageOnExternalData(currentPhotoPath,image)
-
         }
     }
 
@@ -186,13 +178,10 @@ class UploadFragment : Fragment() {
         if (ContextCompat.checkSelfPermission(
                 requireActivity(),
                 Manifest.permission.CAMERA
-            ) !=
-            PackageManager.PERMISSION_GRANTED
-        ) {
+            ) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
-                    Manifest.permission.CAMERA
-                )
+                    Manifest.permission.CAMERA)
             ) {
                 Toast.makeText(
                     requireActivity(),
@@ -238,31 +227,6 @@ class UploadFragment : Fragment() {
         }
     }
 
-    /*private fun requestNeededPermissionWriteStorage() {
-        if (ContextCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) !=
-            PackageManager.PERMISSION_GRANTED
-        ) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-            ) {
-                Toast.makeText(
-                    requireActivity(),
-                    "I need it for camera", Toast.LENGTH_SHORT
-                ).show()
-            }
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                IMAGE_WRITE_CODE
-            )
-        }
-    }*/
-
     private fun requestNeededPermissionReadStorage() {
         if (ContextCompat.checkSelfPermission(
                 requireActivity(),
@@ -301,10 +265,8 @@ class UploadFragment : Fragment() {
             fos.close()
             isFileSaved = true
         } catch (e: FileNotFoundException) {
-            println("FileNotFoundException")
             e.printStackTrace()
         } catch (e: IOException) {
-            println("IOException")
             e.printStackTrace()
         }
         return isFileSaved

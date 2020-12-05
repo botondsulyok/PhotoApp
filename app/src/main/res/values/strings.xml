@@ -110,4 +110,23 @@
     <string name="make_photo">Take Photo</string>
     <string name="description">Description</string>
     <string name="filename">Name:</string>
+    <string name="login">Login</string>
+    <string name="email_login">Email</string>
+    <string name="login_password">Password</string>
+    <string name="likes_number">likes</string>
+    <string name="photo_name">Photo Name</string>
+    <string name="description_default">desc</string>
+    <string name="creator_default">creator</string>
+    <string name="typing_default">Type...</string>
+    <string name="comments_number">comments</string>
+    <string name="register">Register</string>
+    <string name="photo_app_main">Photo App</string>
+    <string name="row_category_name">CategoryName</string>
+    <string name="comment_row_name">CommentRowName</string>
+    <string name="comment_row">CommentRow</string>
+    <string name="competition_name">CompetitionName</string>
+    <string name="competition_date">CompetitionDate</string>
+    <string name="image_name">ImageName</string>
+    <string name="search">Search</string>
+    <string name="menu_categories">Categories</string>
 </resources>

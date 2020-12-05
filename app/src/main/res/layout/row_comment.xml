@@ -25,15 +25,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:text="TextView" />
+            android:text="@string/comment_row_name" />
 
         <TextView
             android:id="@+id/tv_commentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="@string/comment_row" />
 
     </LinearLayout>
 

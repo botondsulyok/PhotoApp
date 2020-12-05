@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="likes"
+                android:text="@string/likes_number"
                 android:layout_margin="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCreator" />
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Photo Name"
+                android:text="@string/photo_name"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:layout_margin="12dp"
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="desc"
+                android:text="@string/description_default"
                 android:layout_margin="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvPhotoName" />
@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="creator"
+                android:text="@string/creator_default"
                 android:layout_margin="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivPhoto" />
@@ -104,7 +104,7 @@
                     android:id="@+id/etComment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Type..." />
+                    android:hint="@string/typing_default" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -123,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="19dp"
                 android:layout_marginTop="8dp"
-                android:text="comments"
+                android:text="@string/comments_number"
                 android:layout_margin="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvLikes" />

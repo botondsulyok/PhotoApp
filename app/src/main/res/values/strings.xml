@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">PhotoApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main2">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -34,8 +33,8 @@
     <string name="txt_liked">Liked</string>
     <string name="btn_close">Close</string>
     <string name="txt_done">Done</string>
-    <string name="tv_commentsnumber">\"Comments: %1$d\"</string>
-    <string name="tv_likesnumber">\"Likes: %1$d\"</string>
+    <string name="tv_commentsnumber">\Comments: %1$d\</string>
+    <string name="tv_likesnumber">\Likes: %1$d\</string>
     <string name="title_welcome">Welcome</string>
     <string name="title_login">Login</string>
     <string name="title_register">Register</string>
@@ -70,5 +69,6 @@
     <string name="txt_permissiongranted">permission granted</string>
     <string name="txt_permissionnotgranted">permission NOT granted</string>
     <string name="txt_needitforupload">I need it for upload</string>
+    <string name="txt_attachphoto">You need to attach a photo!</string>
 
 </resources>

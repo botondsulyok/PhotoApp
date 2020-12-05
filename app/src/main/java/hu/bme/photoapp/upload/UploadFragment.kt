@@ -67,6 +67,10 @@ class UploadFragment : Fragment() {
 
         upload_button.setOnClickListener {
             var valid = true
+            if(ivPhoto.visibility == View.GONE) {
+                Toast.makeText(activity, getString(R.string.txt_attachphoto), Toast.LENGTH_LONG).show()
+                valid = false
+            }
             if (name_text_field.text.isEmpty()) {
                 name_text_field.error = getString(R.string.error_empty)
                 valid = false
@@ -151,10 +155,12 @@ class UploadFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Glide.with(this).load(IMAGE_URI).into(ivPhoto)
+            ivPhoto.visibility = View.VISIBLE
         }
         if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_PICK) {
             IMAGE_URI = data?.data
             Glide.with(this).load(IMAGE_URI).into(ivPhoto)
+            ivPhoto.visibility = View.VISIBLE
             val bitmap = data?.data?.let { getBitmapFromUri(it) }
             val stream = ByteArrayOutputStream()
             bitmap?.compress(Bitmap.CompressFormat.PNG, 90, stream)
